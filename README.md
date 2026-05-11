@@ -1,0 +1,80 @@
+# SkillShare
+
+Rede social acadêmica desenvolvida para conectar estudantes através da troca de conhecimentos, monitorias informais e colaboração entre usuários com diferentes habilidades. O projeto busca facilitar o aprendizado coletivo por meio de uma plataforma web moderna, dinâmica e responsiva.
+
+Projeto desenvolvido como Trabalho de Conclusão de Curso (TCC) do Curso Técnico de Informática da Escola Técnica de Brasília (ETB). 
+
+---
+
+## Objetivo do Projeto
+
+O SkillShare tem como objetivo democratizar o acesso ao conhecimento técnico através da colaboração entre estudantes, permitindo que usuários compartilhem habilidades, materiais acadêmicos e experiências de aprendizado. 
+
+A plataforma foi criada para solucionar problemas como:
+
+- Fragmentação do conhecimento entre alunos;
+- Falta de canais para monitoria informal;
+- Dificuldade em encontrar parceiros de estudo compatíveis.
+
+---
+
+## Principais Funcionalidades
+
+### Match Inteligente
+Sistema de recomendação que conecta estudantes com base nas dificuldades de um usuário e nas habilidades de outro. 
+
+### Feed Acadêmico
+Área para publicação de dúvidas, conteúdos informativos e materiais acadêmicos com suporte para anexos em PDF e imagens. 
+
+### Chat em Tempo Real
+Comunicação direta entre usuários para troca de mensagens, mentorias e compartilhamento de arquivos. 
+
+### Sistema de Gamificação
+Sistema de pontuação e upvotes para incentivar contribuições dentro da comunidade acadêmica. 
+
+### Gestão de Perfil
+Perfis personalizados baseados em competências, habilidades e áreas de interesse acadêmico. 
+
+---
+
+## Tecnologias Utilizadas
+
+### Back-end
+- Java
+- Spring Boot
+- Servlet
+- WebSocket
+
+### Front-end
+- HTML5
+- CSS3
+- JavaScript
+
+### Banco de Dados
+- MySQL
+
+### Ferramentas
+- GitHub
+- VS Code
+- NetBeans
+
+O Spring Boot será utilizado no processamento das requisições HTTP, autenticação, login, cadastro, postagem e comunicação em tempo real, utilizando internamente o DispatcherServlet para gerenciamento das requisições web.
+
+---
+
+## Requisitos do Sistema
+
+- Interface responsiva para desktop, tablet e smartphone;
+- Carregamento rápido do feed acadêmico;
+- Proteção de dados e segurança baseada na LGPD;
+- Sistema escalável para múltiplos usuários simultâneos.
+
+---
+
+## Equipe
+- Carlos Daniel de Souza Oliveira — Desenvolvedor Full-Stack;
+- Rachel Moreira Damasceno Coelho — Scrum Master e Documentação;
+- Renan de Souza Batista — Desenvolvedor de Sistemas e UML;
+- Ana Júlia Vieira de Sousa — Documentação;
+
+---
