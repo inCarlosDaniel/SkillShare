@@ -8,23 +8,23 @@ Projeto desenvolvido como Trabalho de Conclusão de Curso (TCC) do Curso Técnic
 
 ## Objetivo do Projeto
 
-O SkillShare tem como objetivo democratizar o acesso ao conhecimento técnico através da colaboração entre estudantes, permitindo que usuários compartilhem habilidades, materiais acadêmicos e experiências de aprendizado. :contentReference[oaicite:1]{index=1}
+O SkillShare tem como objetivo democratizar o acesso ao conhecimento técnico através da colaboração entre estudantes, permitindo que usuários compartilhem habilidades, materiais acadêmicos e experiências de aprendizado. 
 
 A plataforma foi criada para solucionar problemas como:
 
 - Fragmentação do conhecimento entre alunos;
 - Falta de canais para monitoria informal;
-- Dificuldade em encontrar parceiros de estudo compatíveis. :contentReference[oaicite:2]{index=2}
+- Dificuldade em encontrar parceiros de estudo compatíveis.
 
 ---
 
 ## Principais Funcionalidades
 
 ### Match Inteligente
-Sistema de recomendação que conecta estudantes com base nas dificuldades de um usuário e nas habilidades de outro. :contentReference[oaicite:3]{index=3}
+Sistema de recomendação que conecta estudantes com base nas dificuldades de um usuário e nas habilidades de outro. 
 
 ### Feed Acadêmico
-Área para publicação de dúvidas, conteúdos informativos e materiais acadêmicos com suporte para anexos em PDF e imagens. :contentReference[oaicite:4]{index=4}
+Área para publicação de dúvidas, conteúdos informativos e materiais acadêmicos com suporte para anexos em PDF e imagens. {index=4}
 
 ### Chat em Tempo Real
 Comunicação direta entre usuários para troca de mensagens, mentorias e compartilhamento de arquivos. :contentReference[oaicite:5]{index=5}
@@ -70,6 +70,13 @@ O Spring Boot será utilizado no processamento das requisições HTTP, autentica
 - Sistema escalável para múltiplos usuários simultâneos. :contentReference[oaicite:9]{index=9}
 
 ---
+
+## Equipe
+Carlos Daniel de Souza Oliveira — Desenvolvedor Full-Stack
+Rachel Moreira Damasceno Coelho — Scrum Master e Documentação
+Renan de Souza Batista — Desenvolvedor de Sistemas e UML
+Ana Júlia Vieira de Sousa — Documentação
+
 
 ## Estrutura do Projeto
 
