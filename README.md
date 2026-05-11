@@ -24,16 +24,16 @@ A plataforma foi criada para solucionar problemas como:
 Sistema de recomendação que conecta estudantes com base nas dificuldades de um usuário e nas habilidades de outro. 
 
 ### Feed Acadêmico
-Área para publicação de dúvidas, conteúdos informativos e materiais acadêmicos com suporte para anexos em PDF e imagens. {index=4}
+Área para publicação de dúvidas, conteúdos informativos e materiais acadêmicos com suporte para anexos em PDF e imagens. 
 
 ### Chat em Tempo Real
-Comunicação direta entre usuários para troca de mensagens, mentorias e compartilhamento de arquivos. :contentReference[oaicite:5]{index=5}
+Comunicação direta entre usuários para troca de mensagens, mentorias e compartilhamento de arquivos. 
 
 ### Sistema de Gamificação
-Sistema de pontuação e upvotes para incentivar contribuições dentro da comunidade acadêmica. :contentReference[oaicite:6]{index=6}
+Sistema de pontuação e upvotes para incentivar contribuições dentro da comunidade acadêmica. 
 
 ### Gestão de Perfil
-Perfis personalizados baseados em competências, habilidades e áreas de interesse acadêmico. :contentReference[oaicite:7]{index=7}
+Perfis personalizados baseados em competências, habilidades e áreas de interesse acadêmico. 
 
 ---
 
