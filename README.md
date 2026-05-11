@@ -67,15 +67,15 @@ O Spring Boot será utilizado no processamento das requisições HTTP, autentica
 - Interface responsiva para desktop, tablet e smartphone;
 - Carregamento rápido do feed acadêmico;
 - Proteção de dados e segurança baseada na LGPD;
-- Sistema escalável para múltiplos usuários simultâneos. :contentReference[oaicite:9]{index=9}
+- Sistema escalável para múltiplos usuários simultâneos.
 
 ---
 
 ## Equipe
-Carlos Daniel de Souza Oliveira — Desenvolvedor Full-Stack
-Rachel Moreira Damasceno Coelho — Scrum Master e Documentação
-Renan de Souza Batista — Desenvolvedor de Sistemas e UML
-Ana Júlia Vieira de Sousa — Documentação
+Carlos Daniel de Souza Oliveira — Desenvolvedor Full-Stack;
+Rachel Moreira Damasceno Coelho — Scrum Master e Documentação;
+Renan de Souza Batista — Desenvolvedor de Sistemas e UML;
+Ana Júlia Vieira de Sousa — Documentação;
 
 
 ## Estrutura do Projeto
