@@ -1,13 +1,56 @@
 package Teste;
 
 import Modelo.GrupoEstudo;
+import Modelo.Usuario;
 import Persistencia.GrupoEstudoDAO;
+import Persistencia.UsuarioDAO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class TesteGrupoEstudo {
 
     public static void main(String[] args) throws SQLException {
+
+
+        Usuario criador = new Usuario();
+
+        String emailCriador = "criador.grupo@email.com";
+
+        criador.setNome("Rayane Limas");
+
+        criador.setEmail(emailCriador);
+
+        criador.setSenha("123456");
+
+        criador.setHabilidades("Java");
+
+        criador.setInteresses("Grupos de estudo");
+
+        criador.setDificuldades("Nenhuma");
+
+        UsuarioDAO.inserirUsuario(criador);
+
+        ArrayList<Usuario> usuarios = UsuarioDAO.listarUsuarios();
+
+        for (Usuario u : usuarios) {
+
+            if (u.getEmail().equals(emailCriador)) {
+
+                criador.setidUsuario(u.getidUsuario());
+
+                break;
+
+            }
+
+        }
+
+        if (criador.getidUsuario() == 0) {
+
+            System.out.println("Usuario criador nao encontrado para testar grupo de estudo.");
+
+            return;
+
+        }
 
 
         // INSERIR
@@ -24,6 +67,9 @@ public class TesteGrupoEstudo {
 
 
         grupo.setExameAlvo("Projeto Final");
+
+
+        grupo.setCriador(criador);
 
 
         grupo.setMembros(new ArrayList<>());
@@ -85,6 +131,8 @@ public class TesteGrupoEstudo {
 
             System.out.println("Grupo de estudo inserido nao encontrado para alterar/excluir.");
 
+            UsuarioDAO.excluirUsuario(criador.getidUsuario());
+
             return;
 
         }
@@ -107,6 +155,8 @@ public class TesteGrupoEstudo {
         // EXCLUIR
 
         GrupoEstudoDAO.excluirGrupoEstudo(grupo.getidGrupo());
+
+        UsuarioDAO.excluirUsuario(criador.getidUsuario());
         
     }
 
