@@ -72,19 +72,9 @@ O Spring Boot será utilizado no processamento das requisições HTTP, autentica
 ---
 
 ## Equipe
-Carlos Daniel de Souza Oliveira — Desenvolvedor Full-Stack;
-Rachel Moreira Damasceno Coelho — Scrum Master e Documentação;
-Renan de Souza Batista — Desenvolvedor de Sistemas e UML;
-Ana Júlia Vieira de Sousa — Documentação;
+- Carlos Daniel de Souza Oliveira — Desenvolvedor Full-Stack;
+- Rachel Moreira Damasceno Coelho — Scrum Master e Documentação;
+- Renan de Souza Batista — Desenvolvedor de Sistemas e UML;
+- Ana Júlia Vieira de Sousa — Documentação;
 
-
-## Estrutura do Projeto
-
-```bash
-SkillShare/
-│
-├── backend/
-├── frontend/
-├── database/
-├── docs/
-└── README.md
+---
