@@ -2,7 +2,7 @@
 
 Rede social acadêmica desenvolvida para conectar estudantes através da troca de conhecimentos, monitorias informais e colaboração entre usuários com diferentes habilidades. O projeto busca facilitar o aprendizado coletivo por meio de uma plataforma web moderna, dinâmica e responsiva.
 
-Projeto desenvolvido como Trabalho de Conclusão de Curso (TCC) do Curso Técnico de Informática da Escola Técnica de Brasília (ETB). :contentReference[oaicite:0]{index=0}
+Projeto desenvolvido como Trabalho de Conclusão de Curso (TCC) do Curso Técnico de Informática da Escola Técnica de Brasília (ETB). 
 
 ---
 
