@@ -58,7 +58,7 @@ Perfis personalizados baseados em competências, habilidades e áreas de interes
 - VS Code
 - NetBeans
 
-O Spring Boot será utilizado no processamento das requisições HTTP, autenticação, login, cadastro, postagem e comunicação em tempo real, utilizando internamente o DispatcherServlet para gerenciamento das requisições web. :contentReference[oaicite:8]{index=8}
+O Spring Boot será utilizado no processamento das requisições HTTP, autenticação, login, cadastro, postagem e comunicação em tempo real, utilizando internamente o DispatcherServlet para gerenciamento das requisições web.
 
 ---
 
