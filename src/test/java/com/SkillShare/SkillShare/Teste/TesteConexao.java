@@ -10,12 +10,14 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 /**
  *
  * @author Carlos Daniel
  */
-@SpringBootTest // carrega o contexto completo do Spring Boot para o teste de integração
+@SpringBootTest
+@ActiveProfiles("mysql-test")
 public class TesteConexao {
 
     @Autowired // injeta automaticamente o DataSource configurado pelo Spring Boot
