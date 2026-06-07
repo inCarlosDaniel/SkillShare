@@ -40,10 +40,14 @@ Perfis personalizados baseados em competências, habilidades e áreas de interes
 ## Tecnologias Utilizadas
 
 ### Back-end
-- Java
-- Spring Boot
-- Servlet
-- WebSocket
+- Java 17
+- Spring Boot 4
+- Spring Security
+- OAuth2 (Google e GitHub)
+- Thymeleaf
+- WebSocket (STOMP)
+- Flyway
+- BCrypt
 
 ### Front-end
 - HTML5
@@ -51,14 +55,11 @@ Perfis personalizados baseados em competências, habilidades e áreas de interes
 - JavaScript
 
 ### Banco de Dados
-- MySQL
+- MariaDB
 
 ### Ferramentas
 - GitHub
 - VS Code
-- NetBeans
-
-O Spring Boot será utilizado no processamento das requisições HTTP, autenticação, login, cadastro, postagem e comunicação em tempo real, utilizando internamente o DispatcherServlet para gerenciamento das requisições web.
 
 ---
 
