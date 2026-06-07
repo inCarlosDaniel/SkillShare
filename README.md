@@ -9,7 +9,7 @@ Projeto desenvolvido como Trabalho de Conclusão de Curso (TCC) do Curso Técnic
 ## Demo
 
 <div align="center">
-  <video src="https://github.com/inCarlosDaniel/SkillShare/releases/download/v1.0/skillshare-demo.mp4" controls width="100%"></video>
+  <img src="docs/demo.gif" alt="Demo do SkillShare" width="100%" />
 </div>
 
 ---
