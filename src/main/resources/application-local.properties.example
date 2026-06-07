@@ -3,7 +3,7 @@
 
 # Chave AES-256 para criptografia de mensagens (32 bytes em Base64)
 # Gere uma nova com: openssl rand -base64 32
-app.mensagem.chave-aes=GERE_UMA_CHAVE_AES256_EM_BASE64_AQUI
+app.mensagem.chave-aes=raJVFvdY+WP3ZFWW+qhJRIj+jhhd1VtWqZ/IlQ1zFd8=
 
 # E-mail usado para enviar codigos de verificacao (opcional)
 # Sem isso, o codigo aparece no terminal do servidor
