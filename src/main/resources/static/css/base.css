@@ -1,0 +1,603 @@
+/* ═══════════════════════════════════════════════════════
+   base.css — Design system global do SkillShare
+   Carregado em TODOS os templates antes de qualquer
+   outro CSS específico de página.
+═══════════════════════════════════════════════════════ */
+
+/* ── Variáveis de design ── */
+:root {
+
+  /* Cores */
+  --cor-primaria:       #4169dc;
+
+  --cor-primaria-hover: #3257c8;
+
+  --cor-sucesso:        #2f6839;
+
+  --cor-sucesso-hover:  #275d31;
+
+  --cor-perigo:         #e53935;
+
+  --cor-aviso:          #e8901a;
+
+  --cor-roxo:           #7c3aed;
+
+  --cor-texto:          #202333;
+
+  --cor-texto-suave:    #737987;
+
+  --cor-borda:          #dde1ee;
+
+  --cor-fundo:          #d8dbe2;
+
+  --cor-card:           rgba(255, 255, 255, .96);
+
+  --cor-card-hover:     #f8faff;
+
+  /* Tipografia */
+  --fonte:  Arial, Helvetica, sans-serif;
+
+  --peso-normal: 400;
+
+  --peso-bold:   700;
+
+  --peso-black:  900;
+
+  /* Espaçamento */
+  --raio-sm:   10px;
+
+  --raio-md:   16px;
+
+  --raio-card: 22px;
+
+  --raio-pill: 999px;
+
+  /* Sombras */
+  --sombra-sm:   0 4px 12px rgba(29, 40, 76, .10);
+
+  --sombra-card: 0 18px 38px rgba(29, 40, 76, .13);
+
+  --sombra-deep: 0 28px 56px rgba(20, 25, 50, .20);
+
+  /* Animações */
+  --transicao: .2s ease;
+}
+
+body.dark-theme {
+
+  --cor-texto:       #f4f6fb;
+
+  --cor-texto-suave: #b7bfce;
+
+  --cor-borda:       rgba(255, 255, 255, .14);
+
+  --cor-fundo:       #171b26;
+
+  --cor-card:        rgba(31, 37, 52, .96);
+
+  --cor-card-hover:  rgba(255, 255, 255, .055);
+
+  --sombra-card:     0 18px 38px rgba(0, 0, 0, .28);
+
+  --sombra-deep:     0 28px 56px rgba(0, 0, 0, .36);
+}
+
+/* ── Reset mínimo ── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+
+  margin: 0;
+
+  font-family: var(--fonte);
+
+  color: var(--cor-texto);
+
+  background: var(--cor-fundo);
+}
+
+body.dark-theme {
+
+  background:
+    radial-gradient(circle at 16% 0%, rgba(92, 135, 255, .18), transparent 26%),
+    radial-gradient(circle at 88% 8%, rgba(174, 108, 255, .13), transparent 28%),
+    #171b26;
+}
+
+a { color: inherit; text-decoration: none; }
+
+button {
+
+  border: 0;
+
+  cursor: pointer;
+
+  font: inherit;
+}
+
+/* Garante que [hidden] sempre funcione mesmo com regras de display */
+[hidden] { display: none !important; }
+
+/* ── Keyframes compartilhadas ── */
+@keyframes pageEnter {
+
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes cardRise {
+
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes fadeIn {
+
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes slideUp {
+
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes bubbleIn {
+
+  from { opacity: 0; transform: translateY(10px) scale(.97); }
+  to   { opacity: 1; transform: none; }
+}
+
+@keyframes pulse {
+
+  0%, 100% { opacity: 1; }
+  50%       { opacity: .5; }
+}
+
+/* ── Estrutura padrão de páginas ── */
+
+/* Wrapper de página — toda página autenticada usa esta estrutura */
+.page-window,
+.community-window,
+.feed-window,
+.messages-window,
+.auth-window,
+.settings-window {
+
+  min-height: 100vh;
+
+  animation: pageEnter .5s ease both;
+}
+
+body.dark-theme .page-window,
+body.dark-theme .community-window,
+body.dark-theme .feed-window,
+body.dark-theme .messages-window,
+body.dark-theme .settings-window,
+body.dark-theme .auth-window {
+
+  color: var(--cor-texto);
+
+  background:
+    linear-gradient(135deg, rgba(28, 34, 48, .92), rgba(20, 25, 36, .88)),
+    repeating-linear-gradient(
+      45deg,
+      rgba(255, 255, 255, .025) 0 14px,
+      rgba(97, 126, 210, .035) 14px 28px
+    ) !important;
+}
+
+body.dark-theme .page-window::before,
+body.dark-theme .page-window::after,
+body.dark-theme .community-window::before,
+body.dark-theme .community-window::after,
+body.dark-theme .feed-window::before,
+body.dark-theme .feed-window::after,
+body.dark-theme .messages-window::before,
+body.dark-theme .messages-window::after,
+body.dark-theme .settings-window::before,
+body.dark-theme .settings-window::after {
+
+  opacity: .25;
+}
+
+.global-background-layer {
+
+  position: fixed;
+
+  inset: 0;
+
+  z-index: 0;
+
+  display: block;
+
+  width: 100vw;
+
+  height: 100vh;
+
+  overflow: hidden;
+
+  pointer-events: none;
+}
+
+.global-background-fish {
+
+  background:
+    radial-gradient(circle at 18% 14%, rgba(50, 177, 255, .22), transparent 30%),
+    radial-gradient(circle at 84% 78%, rgba(187, 94, 255, .20), transparent 32%),
+    #060d1f;
+}
+
+.global-background-animated {
+
+  background:
+    radial-gradient(circle at 18% 16%, rgba(91, 211, 255, .32), transparent 30%),
+    radial-gradient(circle at 84% 24%, rgba(184, 93, 248, .28), transparent 32%),
+    linear-gradient(135deg, #101a36, #152b55 46%, #241650);
+}
+
+.global-background-cat {
+
+  background:
+    radial-gradient(circle at 20% 20%, rgba(255, 180, 100, .20), transparent 35%),
+    radial-gradient(circle at 80% 70%, rgba(255, 120, 160, .18), transparent 35%),
+    linear-gradient(135deg, #1a0f0a, #2d1a10 50%, #1a0d1a);
+}
+
+.global-background-dog {
+
+  background:
+    radial-gradient(circle at 25% 75%, rgba(120, 200, 100, .18), transparent 35%),
+    radial-gradient(circle at 75% 20%, rgba(80, 160, 220, .18), transparent 35%),
+    linear-gradient(135deg, #0a1a10, #0f2318 50%, #0a1520);
+}
+
+.global-background-layer svg,
+.global-background-layer canvas {
+
+  position: absolute;
+
+  inset: 0;
+
+  width: 100% !important;
+
+  height: 100% !important;
+
+  opacity: .82;
+}
+
+body.skillshare-global-background-active {
+
+  background: #060d1f !important;
+}
+
+body.skillshare-global-background-cat {
+
+  background: #1a0f0a !important;
+}
+
+body.skillshare-global-background-dog {
+
+  background: #0a1a10 !important;
+}
+
+body.skillshare-global-background-active .page-window,
+body.skillshare-global-background-active .community-window,
+body.skillshare-global-background-active .feed-window,
+body.skillshare-global-background-active .messages-window,
+body.skillshare-global-background-active .settings-window,
+body.skillshare-global-background-active .browser-window {
+
+  position: relative;
+
+  z-index: 1;
+
+  background: transparent !important;
+}
+
+body.skillshare-global-background-active .page-window::before,
+body.skillshare-global-background-active .page-window::after,
+body.skillshare-global-background-active .community-window::before,
+body.skillshare-global-background-active .community-window::after,
+body.skillshare-global-background-active .feed-window::before,
+body.skillshare-global-background-active .feed-window::after,
+body.skillshare-global-background-active .messages-window::before,
+body.skillshare-global-background-active .messages-window::after,
+body.skillshare-global-background-active .settings-window::before,
+body.skillshare-global-background-active .settings-window::after,
+body.skillshare-global-background-active .browser-window::before,
+body.skillshare-global-background-active .browser-window::after {
+
+  background: transparent !important;
+}
+
+/* Barra de "browser chrome" (bolinhas vermelha/amarela/verde) */
+.browser-bar {
+
+  height: 52px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding: 0 28px;
+
+  background: rgba(255, 255, 255, .78);
+
+  border-bottom: 1px solid rgba(255, 255, 255, .72);
+}
+
+.traffic-light {
+
+  width: 14px;
+
+  height: 14px;
+
+  border-radius: 50%;
+
+  box-shadow: 0 2px 6px rgba(22, 30, 55, .18);
+}
+.traffic-light.red    { background: #ff4848; }
+.traffic-light.yellow { background: #ffaf25; }
+.traffic-light.green  { background: #27c03a; }
+
+/* ── Card padrão ── */
+.card {
+
+  background: var(--cor-card);
+
+  border: 1px solid rgba(255, 255, 255, .76);
+
+  border-radius: var(--raio-card);
+
+  box-shadow: var(--sombra-card);
+
+  backdrop-filter: blur(6px);
+}
+
+body.dark-theme .card,
+body.dark-theme .feed-card,
+body.dark-theme .post-card,
+body.dark-theme .postagem-card,
+body.dark-theme .busca-card,
+body.dark-theme .conversation-card,
+body.dark-theme .conversation-row,
+body.dark-theme .chat-header,
+body.dark-theme .chat-compose,
+body.dark-theme .grupo-card,
+body.dark-theme .grupo-detalhe-card,
+body.dark-theme .material-card,
+body.dark-theme .settings-card,
+body.dark-theme .config-card,
+body.dark-theme .perfil-card,
+body.dark-theme .public-profile-card,
+body.dark-theme .match-card,
+body.dark-theme .notification-row {
+
+  background: var(--cor-card) !important;
+
+  border-color: var(--cor-borda) !important;
+
+  color: var(--cor-texto) !important;
+
+  box-shadow: var(--sombra-card);
+}
+
+body.dark-theme .conversation-row:hover,
+body.dark-theme .busca-item:hover,
+body.dark-theme .notification-row:hover,
+body.dark-theme .grupo-card:hover,
+body.dark-theme .material-card:hover {
+
+  background: var(--cor-card-hover) !important;
+}
+
+body.dark-theme h1,
+body.dark-theme h2,
+body.dark-theme h3,
+body.dark-theme strong,
+body.dark-theme label {
+
+  color: var(--cor-texto);
+}
+
+body.dark-theme p,
+body.dark-theme small,
+body.dark-theme time,
+body.dark-theme .texto-suave,
+body.dark-theme .post-meta,
+body.dark-theme .busca-item-info p,
+body.dark-theme .conversation-content p,
+body.dark-theme .conversation-meta,
+body.dark-theme .perfil-email,
+body.dark-theme .perfil-vazio {
+
+  color: var(--cor-texto-suave) !important;
+}
+
+body.dark-theme input,
+body.dark-theme textarea,
+body.dark-theme select {
+
+  color: var(--cor-texto);
+
+  background: rgba(20, 25, 36, .88) !important;
+
+  border-color: var(--cor-borda) !important;
+}
+
+body.dark-theme input::placeholder,
+body.dark-theme textarea::placeholder {
+
+  color: #9aa6ba;
+}
+
+body.dark-theme .btn-ghost {
+
+  color: #a9bdff;
+
+  border-color: var(--cor-borda);
+}
+
+body.dark-theme .btn-ghost:hover {
+
+  background: rgba(255, 255, 255, .06);
+}
+
+body.alto-contraste {
+
+  filter: contrast(1.35);
+
+  background: #000 !important;
+}
+
+body.alto-contraste .top-bar {
+
+  background: #000 !important;
+
+  border-bottom: 3px solid #fff;
+}
+
+body.alto-contraste .card,
+body.alto-contraste .feed-card,
+body.alto-contraste .post-card,
+body.alto-contraste .postagem-card,
+body.alto-contraste .busca-card,
+body.alto-contraste .conversation-card,
+body.alto-contraste .conversation-row,
+body.alto-contraste .chat-header,
+body.alto-contraste .chat-compose,
+body.alto-contraste .grupo-card,
+body.alto-contraste .material-card,
+body.alto-contraste .settings-card,
+body.alto-contraste .perfil-card,
+body.alto-contraste .public-profile-card,
+body.alto-contraste .match-card,
+body.alto-contraste .notification-row {
+
+  color: #fff !important;
+
+  background: #000 !important;
+
+  border: 2px solid #fff !important;
+}
+
+body.alto-contraste a,
+body.alto-contraste button {
+
+  outline-color: #fff;
+}
+
+/* ── Botões padrão ── */
+.btn {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  gap: 6px;
+
+  min-height: 40px;
+
+  padding: 0 20px;
+
+  border-radius: var(--raio-pill);
+
+  font-size: 14px;
+
+  font-weight: var(--peso-bold);
+
+  transition: transform var(--transicao), box-shadow var(--transicao), background var(--transicao);
+
+  text-decoration: none;
+}
+
+.btn:hover { transform: translateY(-1px); }
+
+.btn-primario {
+
+  background: var(--cor-primaria);
+
+  color: #fff;
+
+  box-shadow: 0 6px 16px rgba(65, 105, 220, .28);
+}
+.btn-primario:hover {
+
+  background: var(--cor-primaria-hover);
+
+  box-shadow: 0 10px 24px rgba(65, 105, 220, .36);
+}
+
+.btn-sucesso {
+
+  background: var(--cor-sucesso);
+
+  color: #fff;
+
+  box-shadow: 0 6px 16px rgba(47, 104, 57, .28);
+}
+.btn-sucesso:hover { background: var(--cor-sucesso-hover); }
+
+.btn-ghost {
+
+  background: transparent;
+
+  border: 1.5px solid var(--cor-borda);
+
+  color: var(--cor-primaria);
+}
+.btn-ghost:hover { background: #f0f4ff; }
+
+/* ── Utilitários ── */
+.texto-suave   { color: var(--cor-texto-suave); }
+.texto-primario { color: var(--cor-primaria); }
+.peso-bold     { font-weight: var(--peso-bold); }
+.truncar { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* ── Flash messages (sucesso/erro) ── */
+.flash-sucesso,
+.flash-erro {
+
+  padding: 12px 18px;
+
+  border-radius: var(--raio-md);
+
+  font-size: 14px;
+
+  font-weight: var(--peso-bold);
+
+  margin-bottom: 16px;
+
+  animation: slideUp .25s ease;
+}
+.flash-sucesso { background: #eefbf2; color: var(--cor-sucesso); border: 1px solid #b8e8c4; }
+.flash-erro    { background: #fff0f0; color: var(--cor-perigo);  border: 1px solid #f5c0c0; }
+
+/* ── Focus ring acessível ── */
+:focus-visible {
+
+  outline: 3px solid var(--cor-primaria);
+
+  outline-offset: 2px;
+
+  border-radius: 4px;
+}
+[data-default-profile-avatar] svg,
+[data-default-profile-avatar] canvas {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+}
+
+[data-default-profile-avatar] {
+    background:
+        radial-gradient(circle at 50% 42%, rgba(255, 255, 255, .9), rgba(238, 243, 255, .96) 58%, #dfe8ff 100%) !important;
+    color: transparent !important;
+    overflow: hidden;
+}

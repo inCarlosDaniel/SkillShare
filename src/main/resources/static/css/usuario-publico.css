@@ -1,0 +1,256 @@
+/* ═══════════════════════════════════════
+   usuario-publico.css — Perfil público
+═══════════════════════════════════════ */
+
+.perfil-shell {
+
+    max-width: 680px;
+
+    margin: 0 auto;
+
+    padding: 32px 20px 60px;
+}
+
+.perfil-back {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    color: var(--cor-primaria, #4169dc);
+
+    font-weight: 700;
+
+    font-size: 14px;
+
+    text-decoration: none;
+
+    margin-bottom: 24px;
+
+    transition: gap .15s ease;
+}
+.perfil-back:hover { gap: 10px; }
+
+.perfil-card {
+
+    background: rgba(255, 255, 255, .96);
+
+    border-radius: 24px;
+
+    border: 1px solid rgba(255, 255, 255, .76);
+
+    box-shadow: var(--sombra-card, 0 18px 48px rgba(29, 40, 76, .13));
+
+    overflow: hidden;
+
+    animation: cardRise .5s ease both;
+}
+
+.perfil-header {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 24px;
+
+    padding: 32px 32px 24px;
+
+    border-bottom: 1px solid #edf0f5;
+}
+
+.perfil-foto-wrapper { position: relative; }
+
+.perfil-foto,
+.perfil-foto-placeholder {
+
+    width: 88px;
+
+    height: 88px;
+
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    display: grid;
+
+    place-items: center;
+
+    font-size: 32px;
+
+    font-weight: 900;
+
+    color: #fff;
+
+    background: var(--cor-primaria, #4169dc);
+
+    flex-shrink: 0;
+
+    box-shadow: 0 6px 20px rgba(65, 105, 220, .28);
+}
+
+.perfil-foto { display: none; }
+
+.perfil-nome  { margin: 0 0 6px; font-size: 26px; color: #202333; }
+.perfil-email { margin: 0; font-size: 14px; color: #737987; }
+
+.perfil-body  { padding: 24px 32px; display: flex; flex-direction: column; gap: 20px; }
+
+.perfil-secao h3 {
+
+    margin: 0 0 10px;
+
+    font-size: 13px;
+
+    font-weight: 800;
+
+    color: #737987;
+
+    text-transform: uppercase;
+
+    letter-spacing: .06em;
+}
+
+.perfil-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+
+.perfil-tag {
+
+    padding: 5px 14px;
+
+    border-radius: 999px;
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    background: #eef1ff;
+
+    color: var(--cor-primaria, #4169dc);
+}
+
+.perfil-tag.verde { background: #eefbf2; color: #2f6839; }
+.perfil-tag.roxo  { background: #f5eeff; color: #7c3aed; }
+
+.perfil-vazio { font-size: 14px; color: #a0a7b8; font-style: italic; }
+
+.perfil-acoes { display: flex; gap: 12px; padding: 0 32px 32px; flex-wrap: wrap; }
+
+.btn-conversar {
+
+    flex: 1;
+
+    min-height: 48px;
+
+    border-radius: 999px;
+
+    border: 0;
+
+    background: var(--cor-primaria, #4169dc);
+
+    color: #fff;
+
+    font: inherit;
+
+    font-size: 15px;
+
+    font-weight: 800;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    box-shadow: 0 8px 20px rgba(65, 105, 220, .28);
+
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+.btn-conversar:hover { transform: translateY(-2px); box-shadow: 0 12px 28px rgba(65, 105, 220, .36); }
+
+.btn-voltar {
+
+    min-height: 48px;
+
+    padding: 0 24px;
+
+    border-radius: 999px;
+
+    border: 1.5px solid var(--cor-borda, #dde1ee);
+
+    background: transparent;
+
+    color: var(--cor-primaria, #4169dc);
+
+    font: inherit;
+
+    font-size: 15px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    text-decoration: none;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 6px;
+
+    transition: background .2s ease;
+}
+.btn-voltar:hover { background: #f0f4ff; }
+
+body.dark-theme .perfil-shell {
+
+    color: #f4f6fb;
+}
+
+body.dark-theme .perfil-card {
+
+    background: rgba(31, 37, 52, .96) !important;
+
+    border-color: rgba(255, 255, 255, .14) !important;
+
+    color: #f4f6fb !important;
+
+    box-shadow: 0 18px 38px rgba(0, 0, 0, .28);
+}
+
+body.dark-theme .perfil-nome,
+body.dark-theme .perfil-secao h3 {
+
+    color: #f4f6fb !important;
+}
+
+body.dark-theme .perfil-email,
+body.dark-theme .perfil-secao p,
+body.dark-theme .perfil-vazio {
+
+    color: #b7bfce !important;
+}
+
+body.dark-theme .perfil-tag,
+body.dark-theme .btn-voltar {
+
+    color: #d9e1f2 !important;
+
+    background: rgba(255, 255, 255, .08) !important;
+
+    border-color: rgba(255, 255, 255, .14) !important;
+}
+
+      body {
+        background:
+          radial-gradient(circle at 12% 4%, rgba(92,135,255,.18), transparent 28%),
+          radial-gradient(circle at 88% 8%, rgba(174,108,255,.12), transparent 26%),
+          #d8dbe2;
+      }

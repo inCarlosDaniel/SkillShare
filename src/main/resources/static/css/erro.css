@@ -1,0 +1,13 @@
+    .erro-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+      text-align: center;
+      padding: 2rem;
+      gap: 1rem;
+    }
+    .erro-titulo  { font-size: 1.5rem; font-weight: 700; color: var(--color-error, #c0392b); }
+    .erro-mensagem { max-width: 480px; color: var(--color-text-secondary, #555); }
+    .erro-voltar  { margin-top: 1rem; }

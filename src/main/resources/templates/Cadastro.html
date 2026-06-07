@@ -1,0 +1,197 @@
+
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta name="_csrf" th:content="${_csrf.token}" />
+
+    
+    <title>Cadastro - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/autenticacao.css" />
+
+    
+    <script src="/js/global-theme.js" defer></script>
+
+    
+    <script src="/js/autenticacao.js" defer></script>
+
+  </head>
+
+  
+  <body class="auth-page register-page">
+
+    <!-- Cadastro: cria uma conta e inicia a verificacao por codigo enviado ao e-mail. -->
+
+    
+    <main class="auth-shell">
+
+      
+      <section class="brand-panel" aria-label="SkillShare">
+
+        
+        <div class="orb large-orb"></div>
+
+        
+        <div class="orbit orbit-one"></div>
+
+        
+        <div class="orbit orbit-two"></div>
+
+        
+        <div class="dot-field dot-field-left"></div>
+
+        
+        <div class="dot-field dot-field-center"></div>
+
+        
+        <div class="brand-mark-large">
+
+          
+          <span></span>
+
+        </div>
+
+        
+        <div class="brand-copy">
+
+          
+          <h1>SkillShare</h1>
+
+          
+          <div class="brand-line"></div>
+
+        </div>
+
+      </section>
+
+      
+      <section class="auth-card register-card">
+
+        
+        <div class="auth-logo">
+
+          
+          <div class="brand-mark-small"><span></span></div>
+
+          
+          <strong>SkillShare</strong>
+
+        </div>
+
+        
+        <h2>Crie sua Conta<br />Gratuitamente</h2>
+
+        
+        <form id="registerForm" class="auth-form">
+
+          
+          <input id="registerName" type="text" placeholder="Nome Completo" required />
+
+          
+          <input id="registerEmail" type="email" placeholder="E-mail" required />
+
+          
+          <label class="password-field">
+
+            
+            <span class="lock-icon"></span>
+
+            
+            <input id="registerPassword" type="password" placeholder="Senha" required />
+
+            
+            <button class="toggle-password" type="button" aria-label="Mostrar senha"></button>
+
+          </label>
+
+          
+          <span class="password-label">Password</span>
+
+          
+          <input
+            id="registerConfirmPassword"
+            type="password"
+            placeholder="Confirmar Senha"
+            required
+          />
+
+          
+          <button class="primary-auth-button" type="submit">
+
+            Criar Minha Conta
+          </button>
+
+        </form>
+
+        
+        <form id="verificationForm" class="auth-form" hidden>
+
+          
+          <input
+            id="verificationCode"
+            type="text"
+            inputmode="numeric"
+            maxlength="6"
+            placeholder="Codigo enviado no seu email"
+            required
+          />
+
+          
+          <button class="primary-auth-button" type="submit">
+
+            Verificar e Entrar
+          </button>
+
+        </form>
+
+        
+        <div class="auth-divider"><span>Ou continue com:</span></div>
+
+        
+        <div class="social-row" aria-label="Entrar com redes sociais">
+
+          
+          <a class="social-button google" href="/oauth2/authorization/google" aria-label="Continuar com Google"></a>
+
+          
+          <a class="social-button github" href="/oauth2/authorization/github" aria-label="Continuar com GitHub"></a>
+
+        </div>
+
+        
+        <p id="registerMessage" class="auth-message" aria-live="polite"></p>
+
+        
+        <p class="auth-switch">
+
+          
+          Já tem uma conta? <a href="/login">Faça login</a>
+
+        </p>
+
+      </section>
+
+    </main>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+  </body>
+
+</html>

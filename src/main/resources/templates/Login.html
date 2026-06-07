@@ -1,0 +1,183 @@
+
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta name="_csrf" th:content="${_csrf.token}" />
+
+    
+    <title>Login - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/autenticacao.css" />
+
+    
+    <script src="/js/global-theme.js" defer></script>
+
+    
+    <script src="/js/autenticacao.js" defer></script>
+
+  </head>
+
+  
+  <body class="auth-page login-page">
+
+    <!-- Login: formulario de autenticacao tradicional e atalhos para login social. -->
+
+    
+    <main class="auth-shell">
+
+      
+      <section class="brand-panel" aria-label="SkillShare">
+
+        
+        <div class="orb large-orb"></div>
+
+        
+        <div class="orbit orbit-one"></div>
+
+        
+        <div class="orbit orbit-two"></div>
+
+        
+        <div class="dot-field dot-field-left"></div>
+
+        
+        <div class="dot-field dot-field-center"></div>
+
+        
+        <div class="brand-mark-large">
+
+          
+          <span></span>
+
+        </div>
+
+        
+        <div class="brand-copy">
+
+          
+          <h1>SkillShare</h1>
+
+          
+          <div class="brand-line"></div>
+
+        </div>
+
+      </section>
+
+      
+      <section class="auth-card login-card">
+
+        
+        <div class="auth-logo">
+
+          
+          <div class="brand-mark-small"><span></span></div>
+
+          
+          <strong>SkillShare</strong>
+
+        </div>
+
+        
+        <h2>Bem Vindo</h2>
+
+        
+        <p th:if="${param.erro}" class="auth-message error" aria-live="polite">
+
+          E-mail/usuário ou senha incorretos. Tente novamente.
+        </p>
+
+        
+        <p th:if="${param.logout}" class="auth-message" aria-live="polite">
+
+          Você saiu com sucesso.
+        </p>
+
+        
+        <form id="loginForm" class="auth-form login-form" method="post" th:action="@{/login}">
+
+          
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+          
+          <input
+            id="loginIdentifier"
+            name="username"
+            type="text"
+            placeholder="E-mail ou Nome de Usuário"
+            required
+          />
+
+          
+          <label class="password-field">
+
+            
+            <span class="lock-icon"></span>
+
+            
+            <input id="loginPassword" name="password" type="password" placeholder="Senha" required />
+
+          </label>
+
+          
+          <button class="primary-auth-button" type="submit">Entrar</button>
+
+        </form>
+
+        
+        <a class="forgot-link" href="#">Esqueci sua senha?</a>
+
+        
+        <div class="auth-divider"><span>Ou continue com:</span></div>
+
+        
+        <div class="social-row" aria-label="Entrar com redes sociais">
+
+          
+          <a class="social-button google" href="/oauth2/authorization/google" aria-label="Continuar com Google"></a>
+
+          
+          <a class="social-button github" href="/oauth2/authorization/github" aria-label="Continuar com GitHub"></a>
+
+        </div>
+
+        
+        <p id="loginMessage" class="auth-message" aria-live="polite"></p>
+
+        
+        <p class="auth-switch login-switch">
+
+          
+          <span>Não tem uma conta?</span>
+
+          
+          <a href="/cadastro">Cadastre-se gratuitamente</a>
+
+        </p>
+
+      </section>
+
+    </main>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+  </body>
+
+</html>

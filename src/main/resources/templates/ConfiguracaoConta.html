@@ -1,0 +1,262 @@
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <title>Configurações da Conta - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/configuracoes-conta.css" />
+
+    
+    <link rel="stylesheet" href="/css/barra-topo.css" />
+
+    
+    <script src="/js/configuracoes-conta.js" defer></script>
+
+  </head>
+
+  <body>
+
+    <!-- Configuracoes da conta: permite alterar dados, trocar senha e excluir a conta. -->
+
+    
+    <div class="settings-window">
+
+
+      
+      <header th:replace="~{fragments/topbar :: top-bar('')}"></header>
+
+      
+      <main class="settings-shell">
+
+        
+
+        
+        <aside class="settings-menu" aria-label="Seções de configuração">
+
+          
+          <a class="settings-link" href="#editar">Editar Conta</a>
+
+          
+          <a class="settings-link" href="#seguranca">Segurança e Senha</a>
+
+          
+          <a class="settings-link" href="/notificacoes">Notificações</a>
+
+          
+          <button class="settings-link danger" type="button">
+
+            Excluir Conta
+          </button>
+
+        </aside>
+
+        
+
+        
+        <div class="settings-sections">
+
+          
+
+          
+          <section class="settings-card" id="editar" aria-labelledby="titulo-editar">
+
+            
+            <h1 id="titulo-editar">Configurações Gerais da Conta</h1>
+
+            
+
+            
+            <p th:if="${sucesso}" class="settings-msg success" th:text="${sucesso}"></p>
+
+            
+            <p th:if="${erro}"    class="settings-msg error"   th:text="${erro}"></p>
+
+            
+            <form class="settings-form" action="/usuarios/alterar-dados" method="post">
+
+              
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+              
+              <label>
+
+                
+                <span>Nome de Exibição</span>
+
+                
+                <input type="text" name="nome" required
+                       th:value="${currentUser != null ? currentUser.nome : ''}"
+                       placeholder="Seu nome" />
+
+              </label>
+
+              
+              <label>
+
+                
+                <span>E-mail Vinculado</span>
+
+                
+                <input type="email" name="email" required
+                       th:value="${currentUser != null ? currentUser.email : ''}"
+                       placeholder="seu@email.com" />
+
+              </label>
+
+              
+              <button class="save-settings-button" type="submit">Salvar Alterações</button>
+
+            </form>
+
+          </section>
+
+          
+
+          
+          <section class="settings-card" id="seguranca" aria-labelledby="titulo-seguranca">
+
+            
+            <h1 id="titulo-seguranca">Segurança e Senha</h1>
+
+            
+
+            
+            <p th:if="${sucessoSenha}" class="settings-msg success" th:text="${sucessoSenha}"></p>
+
+            
+            <p th:if="${erroSenha}"   class="settings-msg error"   th:text="${erroSenha}"></p>
+
+            
+            <form class="settings-form" action="/usuarios/alterar-senha" method="post"
+                  aria-label="Formulário para alterar senha">
+
+              
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+              
+              <label>
+
+                
+                <span>Senha Atual</span>
+
+                
+                <div class="password-field">
+
+                  
+                  <input type="password" name="senhaAtual" id="senhaAtual" required
+                         placeholder="Digite sua senha atual" autocomplete="current-password" />
+
+                  
+                  <button type="button" class="toggle-senha-btn" aria-label="Mostrar ou ocultar senha">👁</button>
+
+                </div>
+
+              </label>
+
+              
+              <label>
+
+                
+                <span>Nova Senha</span>
+
+                
+                <div class="password-field">
+
+                  
+                  <input type="password" name="novaSenha" id="novaSenha" required
+                         placeholder="Mínimo 6 caracteres" autocomplete="new-password" />
+
+                  
+                  <button type="button" class="toggle-senha-btn"
+                          onclick="alternarSenha('novaSenha', this)" aria-label="Mostrar ou ocultar senha">👁</button>
+
+                </div>
+
+              </label>
+
+              
+              <label>
+
+                
+                <span>Confirmar Nova Senha</span>
+
+                
+                <div class="password-field">
+
+                  
+                  <input type="password" name="confirmarSenha" id="confirmarSenha" required
+                         placeholder="Repita a nova senha" autocomplete="new-password" />
+
+                  
+                  <button type="button" class="toggle-senha-btn"
+                          onclick="alternarSenha('confirmarSenha', this)" aria-label="Mostrar ou ocultar senha">👁</button>
+
+                </div>
+
+              </label>
+
+              
+
+              
+              <div class="forca-senha-wrapper" aria-live="polite">
+
+                
+                <div class="forca-senha-barra" id="forcaSenhaBarra"></div>
+
+                
+                <span class="forca-senha-texto" id="forcaSenhaTexto"></span>
+
+              </div>
+
+              
+              <button class="save-settings-button" type="submit">Alterar Senha</button>
+
+            </form>
+
+          </section>
+
+        </div>
+
+      </main>
+
+      
+
+      
+      
+      <form id="formExcluirConta" style="display:none;"
+            th:action="${currentUser != null ? '/usuarios/' + currentUser.idUsuario : '#'}"
+            method="post">
+
+        
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        
+        <input type="hidden" name="_method" value="DELETE" />
+
+      </form>
+
+    </div>
+
+    
+    <th:block th:replace="~{fragments/topbar :: chat-widget}"></th:block>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+  </body>
+
+</html>

@@ -1,0 +1,207 @@
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <title th:text="${usuario != null ? usuario.nome + ' - SkillShare' : 'Perfil - SkillShare'}">Perfil</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/barra-topo.css" />
+
+    
+    <link rel="stylesheet" href="/css/usuario-publico.css" />
+
+
+  </head>
+
+  <body>
+
+    <!-- Perfil publico: exibe dados de outro usuario e oferece conversa ou pedido de conexao. -->
+
+
+    
+    <header th:replace="~{fragments/topbar :: top-bar('')}"></header>
+
+    
+    <div class="perfil-shell" th:if="${usuario != null}">
+
+      
+      <a href="javascript:history.back()" class="perfil-back">← Voltar</a>
+
+      
+      <div class="perfil-card">
+
+        
+
+        
+        <div class="perfil-header">
+
+          
+          <div class="perfil-foto-wrapper">
+
+            
+            <span class="perfil-foto-placeholder" id="perfilPlaceholder"
+                  data-default-profile-avatar="true"
+                  th:text="${#strings.substring(usuario.nome, 0, 1)}">U</span>
+
+            
+            
+            
+            <img class="perfil-foto" id="perfilFoto"
+                 th:src="@{/usuarios/{id}/foto(id=${usuario.idUsuario})}"
+                 th:alt="${usuario.nome}"
+                 onerror="this.style.display='none';if(window.SkillShareAvatars){window.SkillShareAvatars.showDefault('perfilPlaceholder');}else{document.getElementById('perfilPlaceholder').style.display='grid';}"
+                 onload="this.style.display='block';document.getElementById('perfilPlaceholder').style.display='none';" />
+
+          </div>
+
+          
+          <div>
+
+            
+            <h1 class="perfil-nome" th:text="${usuario.nome}">Nome</h1>
+
+            
+            <p class="perfil-email" th:text="${usuario.email}">email@exemplo.com</p>
+
+          </div>
+
+        </div>
+
+        
+
+        
+        <div class="perfil-body">
+
+          
+          <div class="perfil-secao" th:if="${usuario.habilidades != null && !#strings.isEmpty(usuario.habilidades)}">
+
+            
+            <h3>Pode Ensinar</h3>
+
+            
+            <div class="perfil-tags">
+
+              
+              <span class="perfil-tag verde"
+                    th:each="tag : ${#strings.arraySplit(usuario.habilidades, ',')}"
+                    th:text="${#strings.trim(tag)}"
+                    th:if="${!#strings.isEmpty(#strings.trim(tag))}">Tag</span>
+
+            </div>
+
+          </div>
+
+          
+          <div class="perfil-secao" th:if="${usuario.interesses != null && !#strings.isEmpty(usuario.interesses)}">
+
+            
+            <h3>Quer Aprender</h3>
+
+            
+            <div class="perfil-tags">
+
+              
+              <span class="perfil-tag"
+                    th:each="tag : ${#strings.arraySplit(usuario.interesses, ',')}"
+                    th:text="${#strings.trim(tag)}"
+                    th:if="${!#strings.isEmpty(#strings.trim(tag))}">Tag</span>
+
+            </div>
+
+          </div>
+
+          
+          <div class="perfil-secao" th:if="${usuario.dificuldades != null && !#strings.isEmpty(usuario.dificuldades)}">
+
+            
+            <h3>Tem Dificuldade em</h3>
+
+            
+            <div class="perfil-tags">
+
+              
+              <span class="perfil-tag roxo"
+                    th:each="tag : ${#strings.arraySplit(usuario.dificuldades, ',')}"
+                    th:text="${#strings.trim(tag)}"
+                    th:if="${!#strings.isEmpty(#strings.trim(tag))}">Tag</span>
+
+            </div>
+
+          </div>
+
+          
+          <p class="perfil-vazio"
+             th:if="${(usuario.habilidades == null || #strings.isEmpty(usuario.habilidades)) &&
+                      (usuario.interesses  == null || #strings.isEmpty(usuario.interesses))  &&
+                      (usuario.dificuldades == null || #strings.isEmpty(usuario.dificuldades))}">
+
+            Este usuário ainda não preencheu o perfil de aprendizagem.
+          </p>
+
+        </div>
+
+        
+
+        
+        <div class="perfil-acoes">
+
+          
+          
+          <a th:if="${estaConectado}"
+             th:href="@{/chat/{id}(id=${usuario.idUsuario})}" class="btn-conversar">
+            💬 Conversar
+          </a>
+
+          
+          
+          <a th:if="${!estaConectado}"
+             th:href="@{/chat/{id}(id=${usuario.idUsuario})}"
+             class="btn-conversar connect-chat-button"
+             th:attr="data-dest-id=${usuario.idUsuario}">
+            💬 Conectar e Conversar
+          </a>
+
+          
+          <a href="javascript:history.back()" class="btn-voltar">← Voltar</a>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    
+
+    
+    <div class="perfil-shell" th:if="${usuario == null}" style="text-align:center;padding-top:80px;">
+
+      
+      <p style="font-size:18px;color:#737987;">Usuário não encontrado.</p>
+
+      
+      <a href="/mensagens-lista" style="color:#4169dc;font-weight:700;">← Voltar para conversas</a>
+
+    </div>
+
+    
+    <th:block th:replace="~{fragments/topbar :: chat-widget}"></th:block>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+  </body>
+
+</html>

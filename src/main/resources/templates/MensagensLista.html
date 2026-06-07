@@ -1,0 +1,251 @@
+
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <title>Mensagens - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/mensagens.css" />
+
+    
+    <link rel="stylesheet" href="/css/barra-topo.css" />
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js"></script>
+    
+    <script src="/js/mensagens-lista.js" defer></script>
+
+  </head>
+
+  <body>
+
+    <!-- Lista de mensagens: mostra conversas recentes, pedidos pendentes e modal para iniciar nova conversa. -->
+
+    
+    <div id="listaData" hidden
+         th:attr="data-user-id=${currentUser != null ? currentUser.idUsuario : 0}"></div>
+
+    
+    <div class="messages-window">
+
+
+      
+      <header th:replace="~{fragments/topbar :: top-bar('')}"></header>
+
+      
+      <main class="messages-shell">
+
+        
+        <section class="messages-heading">
+
+          
+          <h1>Minhas Conversas</h1>
+
+          
+          <input type="search" id="filtroConversas"
+                 placeholder="Filtrar conversas..."
+                 style="min-height:40px;padding:0 16px;border:1.5px solid #dde1ee;border-radius:999px;font:inherit;font-size:14px;outline:0;"
+                 aria-label="Filtrar conversas" />
+
+          
+          <button class="new-message-button" type="button" id="btnNovaMensagem">+ Nova Mensagem</button>
+
+        </section>
+
+        
+        <section class="conversation-card" aria-label="Lista de conversas">
+
+          
+          <th:block th:each="mensagem : ${mensagens}"
+                    th:with="parceiro=${currentUser != null && mensagem.remetente != null && mensagem.remetente.idUsuario == currentUser.idUsuario ? mensagem.destinatario : mensagem.remetente},
+                             parceiroId=${currentUser != null && mensagem.remetente != null && mensagem.remetente.idUsuario == currentUser.idUsuario ? (mensagem.destinatario != null ? mensagem.destinatario.idUsuario : 0) : (mensagem.remetente != null ? mensagem.remetente.idUsuario : 0)}">
+
+            
+            <div class="conversation-row" th:classappend="${!mensagem.lida} ? ' unread'"
+                 th:attr="data-parceiro-id=${parceiroId}">
+
+              
+
+              
+              <a th:href="@{/usuario/{id}(id=${parceiroId})}" class="conv-avatar-link"
+                 th:title="${parceiro != null ? 'Ver perfil de ' + parceiro.nome : 'Ver perfil'}">
+
+                
+                <span class="conversation-avatar conv-placeholder"
+                      th:id="'avp-' + ${parceiroId}"
+                      th:text="${parceiro != null ? #strings.substring(parceiro.nome, 0, 1) : 'U'}">U</span>
+
+                
+                <img class="conversation-avatar conv-foto"
+                     th:id="'avi-' + ${parceiroId}"
+                     th:src="@{/usuarios/{id}/foto(id=${parceiroId})}"
+                     th:alt="${parceiro != null ? parceiro.nome : ''}"
+                     style="display:none;object-fit:cover;"
+                     th:onerror="'this.style.display=\'none\';var p=document.getElementById(\'avp-\'+' + ${parceiroId} + ');if(p)p.style.display=\'grid\';'"
+                     th:onload="'this.style.display=\'block\';var p=document.getElementById(\'avp-\'+' + ${parceiroId} + ');if(p)p.style.display=\'none\';'" />
+
+              </a>
+
+              
+
+              
+              <a th:href="@{/chat/{id}(id=${parceiroId})}" class="conversation-content conv-content-link">
+
+                
+                <h2 th:text="${parceiro != null ? parceiro.nome : 'Usuario'}">Usuario</h2>
+
+                
+                <p th:text="${mensagem.texto}">Ultima mensagem</p>
+
+              </a>
+
+              
+
+              
+              <div class="conversation-meta">
+
+                
+                <time th:datetime="${mensagem.dataEnvio}"
+                      th:text="${mensagem.dataEnvio != null ? #temporals.format(mensagem.dataEnvio, 'HH:mm') : ''}">10:35</time>
+
+                
+                <span class="unread-dot" aria-label="Mensagem nao lida" th:if="${!mensagem.lida}"></span>
+
+                
+                
+                <span th:if="${pendenteIds != null and pendenteIds.contains(parceiroId)}"
+                      style="font-size:11px;font-weight:700;background:#fff3cd;color:#856404;border:1px solid #ffc107;border-radius:999px;padding:2px 8px;white-space:nowrap;">
+                  Aguardando resposta
+                </span>
+
+              </div>
+
+            </div>
+
+          </th:block>
+
+          
+          <div class="conv-empty" th:if="${#lists.isEmpty(mensagens)}">
+
+            <p>Nenhuma conversa ainda.</p>
+
+            
+            <p style="font-size:14px;margin-top:6px;">
+
+              Acesse <a href="/match" style="color:#4169dc;font-weight:700;">Parceiros de Estudo</a>
+
+              e clique em "Conectar e Conversar" para comecar.
+            </p>
+
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+
+    
+
+    
+    <div id="novaMsgOverlay" class="nova-msg-overlay" style="display:none;"
+         onclick="if(event.target===this)this.style.display='none'">
+
+      
+      <div class="nova-msg-painel">
+
+        
+        <header class="nova-msg-header">
+
+          
+          <h2>Nova Mensagem</h2>
+
+          
+          <button type="button" aria-label="Fechar"
+                  onclick="document.getElementById('novaMsgOverlay').style.display='none'">&#215;</button>
+
+        </header>
+
+        
+        <input type="search" id="filtroParceiros" class="nova-msg-filtro"
+               placeholder="Buscar parceiro..." aria-label="Buscar parceiro" />
+
+        
+        <ul class="nova-msg-lista" id="listaParceiros">
+
+          
+          <li class="nova-msg-item" th:each="parceiro : ${parceiros}">
+
+            
+            <a th:href="@{/chat/{id}(id=${parceiro.idUsuario})}" class="nova-msg-link">
+
+              
+
+              
+              <span class="nova-msg-avatar"
+                    th:id="'nmp-' + ${parceiro.idUsuario}"
+                    th:text="${#strings.substring(parceiro.nome, 0, 1)}">U</span>
+
+              
+              <img class="nova-msg-avatar nova-msg-foto"
+                   th:id="'nmi-' + ${parceiro.idUsuario}"
+                   th:src="@{/usuarios/{id}/foto(id=${parceiro.idUsuario})}"
+                   th:alt="${parceiro.nome}"
+                   style="display:none;object-fit:cover;"
+                   th:onerror="'this.style.display=\'none\';var p=document.getElementById(\'nmp-\'+' + ${parceiro.idUsuario} + ');if(p)p.style.display=\'grid\';'"
+                   th:onload="'this.style.display=\'block\';var p=document.getElementById(\'nmp-\'+' + ${parceiro.idUsuario} + ');if(p)p.style.display=\'none\';'" />
+
+              <div>
+
+                
+                <strong th:text="${parceiro.nome}">Nome</strong>
+
+                
+                <span th:text="${parceiro.habilidades != null && !#strings.isEmpty(parceiro.habilidades) ? parceiro.habilidades : 'Parceiro de estudos'}">Habilidades</span>
+
+              </div>
+
+            </a>
+
+          </li>
+
+          
+          <li class="nova-msg-vazio" th:if="${#lists.isEmpty(parceiros)}">
+
+            <p>Voce ainda nao tem conexao.</p>
+
+          </li>
+
+        </ul>
+
+      </div>
+
+    </div>
+
+    
+    <th:block th:replace="~{fragments/topbar :: chat-widget}"></th:block>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+
+
+  </body>
+
+</html>

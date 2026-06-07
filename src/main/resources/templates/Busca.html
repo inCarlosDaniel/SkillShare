@@ -1,0 +1,392 @@
+
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <title>Explorar - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/comunidade.css" />
+
+    
+    <link rel="stylesheet" href="/css/barra-topo.css" />
+
+    
+    <link rel="stylesheet" th:href="@{/css/busca.css}" />
+
+    
+    <script src="/js/busca.js" defer></script>
+
+  </head>
+
+  <body>
+
+    <!-- Pagina de exploracao: permite buscar postagens, grupos, materiais e membros em uma unica tela. -->
+
+    
+    <div class="community-window">
+
+
+      
+      <header th:replace="~{fragments/topbar :: top-bar('busca')}"></header>
+
+      
+      <main class="search-shell">
+
+        
+
+        
+        <!-- Formulario principal: envia o termo digitado e o tipo de filtro para o UsuarioController.busca(). -->
+        <form class="search-page-form" id="formBusca" action="/busca" method="get" aria-label="Formulario de busca">
+
+          
+          <div style="position:relative;display:contents;">
+
+            
+            <input type="search" id="inputBusca" name="q"
+                   th:value="${termoBusca}"
+                   placeholder="Buscar postagens, materiais, grupos ou membros..."
+                   aria-label="Termo de busca" />
+
+            
+            <button type="button" id="btnLimparBusca"
+                    class="search-clear-button"
+                    style="display:none;"
+                    aria-label="Limpar busca"></button>
+
+          </div>
+
+          
+          <input type="hidden" name="tipo" th:value="${tipoAtivo != null ? tipoAtivo : 'todos'}" id="tipoHidden" />
+
+          
+          <button type="submit">Buscar</button>
+
+        </form>
+
+        
+
+        
+        <!-- Filtros de categoria: cada link recarrega a busca mostrando apenas uma familia de resultados. -->
+        <div class="search-filters" role="group" aria-label="Filtro por tipo de conteudo">
+
+          
+          <a data-tipo="todos"
+             th:href="@{/busca(q=${termoBusca}, tipo='todos')}"
+             class="filter-pill" th:classappend="${tipoAtivo == 'todos' or tipoAtivo == null} ? ' active' : ''">Todos</a>
+
+          
+          <a data-tipo="postagens"
+             th:href="@{/busca(q=${termoBusca}, tipo='postagens')}"
+             class="filter-pill" th:classappend="${tipoAtivo == 'postagens'} ? ' active' : ''">Postagens</a>
+
+          
+          <a data-tipo="grupos"
+             th:href="@{/busca(q=${termoBusca}, tipo='grupos')}"
+             class="filter-pill" th:classappend="${tipoAtivo == 'grupos'} ? ' active' : ''">Grupos</a>
+
+          
+          <a data-tipo="materiais"
+             th:href="@{/busca(q=${termoBusca}, tipo='materiais')}"
+             class="filter-pill" th:classappend="${tipoAtivo == 'materiais'} ? ' active' : ''">Materiais</a>
+
+          
+          <a data-tipo="membros"
+             th:href="@{/busca(q=${termoBusca}, tipo='membros')}"
+             class="filter-pill" th:classappend="${tipoAtivo == 'membros'} ? ' active' : ''">Membros</a>
+
+        </div>
+
+        
+
+        
+        <!-- Grade de resultados: agrupa os cards por categoria recebida do controller. -->
+        <div class="busca-grid">
+
+          
+
+          
+          <!-- Postagens encontradas: mostra autor, previa do conteudo e atalho para o feed. -->
+          <section class="busca-card" th:if="${postagens != null and !#lists.isEmpty(postagens)}">
+
+            
+            <header class="busca-card-header busca-card-postagens">
+
+              
+              <span class="busca-card-icon" aria-hidden="true"></span>
+
+              
+              <h2>Postagens</h2>
+
+              
+              <span class="busca-card-count" th:text="${#lists.size(postagens)}">0</span>
+
+            </header>
+
+            
+            <div class="busca-card-body">
+
+              
+              <article class="busca-item" th:each="postagem : ${postagens}">
+
+                
+                <span class="busca-avatar-stack">
+                  
+                  <span class="busca-item-avatar busca-avatar-fallback"
+                        th:id="${'buscaPostAutorAvatar-' + postagem.getidPostagem()}"
+                        th:text="${postagem.autor != null ? #strings.substring(postagem.autor.nome, 0, 1) : 'A'}">A</span>
+                  
+                  <img class="busca-item-avatar busca-avatar-foto js-busca-foto"
+                       th:src="@{/usuarios/{id}/foto(id=${postagem.autor != null ? postagem.autor.idUsuario : 0})}"
+                       th:alt="${postagem.autor != null ? postagem.autor.nome : 'Autor'}"
+                       th:attr="data-placeholder-id=${'buscaPostAutorAvatar-' + postagem.getidPostagem()}" />
+                </span>
+
+                
+                <div class="busca-item-info">
+
+                  
+                  <strong th:text="${postagem.autor != null ? postagem.autor.nome : 'Autor desconhecido'}">Autor</strong>
+
+                  
+                  <p th:text="${#strings.abbreviate(postagem.conteudo, 110)}">Conteudo</p>
+
+                </div>
+
+                
+                <a href="/feed" class="busca-item-acao">Ver no Feed</a>
+
+              </article>
+
+            </div>
+
+          </section>
+
+          
+
+          
+          <!-- Grupos encontrados: mostra nome, materia e acao para abrir ou entrar no grupo. -->
+          <section class="busca-card" th:if="${grupos != null and !#lists.isEmpty(grupos)}">
+
+            
+            <header class="busca-card-header busca-card-grupos">
+
+              
+              <span class="busca-card-icon" aria-hidden="true"></span>
+
+              <h2>Grupos</h2>
+
+              
+              <span class="busca-card-count" th:text="${#lists.size(grupos)}">0</span>
+
+            </header>
+
+            
+            <div class="busca-card-body">
+
+              
+              <article class="busca-item" th:each="grupo : ${grupos}">
+
+                
+                <span class="busca-item-avatar busca-avatar-grupo busca-avatar-icon" aria-label="Grupo"></span>
+
+                
+                <div class="busca-item-info">
+
+                  
+                  <strong th:text="${grupo.nome}">Grupo</strong>
+
+                  
+                  <p th:text="${grupo.materia != null ? 'Materia: ' + grupo.materia : 'Sem materia definida'}">Materia</p>
+
+                </div>
+
+                
+                <a th:href="@{/grupos/{id}(id=${grupo.getidGrupo()})}" class="busca-item-acao">
+
+                  
+                  <th:block th:if="${currentUser != null and grupo.membros != null and #lists.contains(grupo.membros.![idUsuario], currentUser.idUsuario)}">Abrir</th:block>
+
+                  
+                  <th:block th:if="${currentUser == null or grupo.membros == null or !#lists.contains(grupo.membros.![idUsuario], currentUser.idUsuario)}">Entrar</th:block>
+
+                </a>
+
+              </article>
+
+            </div>
+
+          </section>
+
+          
+
+          
+          <!-- Materiais encontrados: mostra titulo, categoria e link de download. -->
+          <section class="busca-card" th:if="${materiais != null and !#lists.isEmpty(materiais)}">
+
+            
+            <header class="busca-card-header busca-card-materiais">
+
+              
+              <span class="busca-card-icon" aria-hidden="true"></span>
+
+              <h2>Materiais</h2>
+
+              
+              <span class="busca-card-count" th:text="${#lists.size(materiais)}">0</span>
+
+            </header>
+
+            
+            <div class="busca-card-body">
+
+              
+              <article class="busca-item" th:each="material : ${materiais}">
+
+                
+                <span class="busca-item-avatar busca-avatar-material busca-avatar-icon" aria-label="Material"></span>
+
+                
+                <div class="busca-item-info">
+
+                  
+                  <strong th:text="${material.titulo}">Material</strong>
+
+                  
+                  <p th:text="${material.categoria != null ? material.categoria : 'Material compartilhado'}">Categoria</p>
+
+                </div>
+
+                
+                <a th:href="@{/materiais-repositorio/download/{id}(id=${material.getidMaterial()})}"
+                   class="busca-item-acao">Baixar</a>
+
+              </article>
+
+            </div>
+
+          </section>
+
+          
+
+          
+          <!-- Membros encontrados: mostra perfil resumido e decide entre conversar ou ver perfil. -->
+          <section class="busca-card" th:if="${usuarios != null and !#lists.isEmpty(usuarios)}">
+
+            
+            <header class="busca-card-header busca-card-membros">
+
+              
+              <span class="busca-card-icon" aria-hidden="true"></span>
+
+              <h2>Membros</h2>
+
+              
+              <span class="busca-card-count" th:text="${#lists.size(usuarios)}">0</span>
+
+            </header>
+
+            
+            <div class="busca-card-body">
+
+              
+              <article class="busca-item" th:each="usuario : ${usuarios}">
+
+                
+                <span class="busca-avatar-stack">
+                  
+                  <span class="busca-item-avatar busca-avatar-membro busca-avatar-fallback"
+                        th:id="${'buscaMembroAvatar-' + usuario.idUsuario}"
+                        th:text="${#strings.substring(usuario.nome, 0, 1)}">U</span>
+                  
+                  <img class="busca-item-avatar busca-avatar-foto js-busca-foto"
+                       th:src="@{/usuarios/{id}/foto(id=${usuario.idUsuario})}"
+                       th:alt="${usuario.nome}"
+                       th:attr="data-placeholder-id=${'buscaMembroAvatar-' + usuario.idUsuario}" />
+                </span>
+
+                
+                <div class="busca-item-info">
+
+                  
+                  <strong th:text="${usuario.nome}">Usuario</strong>
+
+                  
+                  <p th:text="${usuario.habilidades != null && !#strings.isEmpty(usuario.habilidades) ? usuario.habilidades : 'Perfil de aprendizagem'}">Habilidades</p>
+
+                </div>
+
+                
+                <a th:if="${conectadosIds != null and conectadosIds.contains(usuario.idUsuario)}"
+                   th:href="@{/chat/{id}(id=${usuario.idUsuario})}"
+                   class="busca-item-acao busca-item-acao-chat">&#10003; Conversar</a>
+
+                
+                <a th:if="${conectadosIds == null or !conectadosIds.contains(usuario.idUsuario)}"
+                   th:href="@{/usuario/{id}(id=${usuario.idUsuario})}"
+                   class="busca-item-acao">Ver Perfil</a>
+
+              </article>
+
+            </div>
+
+          </section>
+
+          
+
+          
+          <!-- Estado vazio: aparece quando nenhuma categoria tem resultados para o termo atual. -->
+          <div class="busca-vazio"
+               th:if="${(postagens == null or #lists.isEmpty(postagens)) and
+                        (grupos    == null or #lists.isEmpty(grupos))    and
+                        (materiais == null or #lists.isEmpty(materiais)) and
+                        (usuarios  == null or #lists.isEmpty(usuarios))}">
+
+            
+            <div class="busca-vazio-icon" aria-hidden="true"></div>
+
+            
+            <p th:if="${termoBusca != null and !#strings.isEmpty(termoBusca)}">
+
+              
+              Nenhum resultado para <strong th:text="${termoBusca}">...</strong>
+
+            </p>
+
+            
+            <p th:if="${termoBusca == null or #strings.isEmpty(termoBusca)}">
+
+              Digite algo acima para buscar postagens, grupos, materiais ou membros.
+            </p>
+
+          </div>
+
+        </div>
+
+      </main>
+
+    </div>
+
+    
+    <th:block th:replace="~{fragments/topbar :: chat-widget}"></th:block>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+
+  </body>
+
+</html>

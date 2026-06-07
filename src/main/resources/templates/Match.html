@@ -1,0 +1,264 @@
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <title>Match - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/comunidade.css" />
+
+    
+    <link rel="stylesheet" href="/css/barra-topo.css" />
+
+    
+    <script src="/js/match.js" defer></script>
+
+  </head>
+
+  <body>
+
+    <!-- Match: mostra usuarios sugeridos por compatibilidade de habilidades, interesses e dificuldades. -->
+
+    
+    <div class="community-window">
+
+
+      
+      <header th:replace="~{fragments/topbar :: top-bar('match')}"></header>
+
+      
+      <main class="match-shell">
+
+        
+
+        
+        <section class="match-heading">
+
+          
+          <h1>Parceiros de Estudo</h1>
+
+          
+          <p>Sugestões baseadas no que você sabe e no que quer aprender.
+             Quanto mais completo o seu perfil, melhores os resultados.</p>
+
+          
+
+          
+          <div class="match-perfil-aviso"
+               th:if="${currentUser != null and (currentUser.habilidades == null or #strings.isEmpty(currentUser.habilidades)) and (currentUser.interesses == null or #strings.isEmpty(currentUser.interesses))}">
+
+            
+            💡 Seu perfil não tem habilidades nem interesses cadastrados.
+            <a href="/perfil">Complete seu perfil</a> para receber sugestões mais precisas.
+          </div>
+
+          
+
+          
+          <input type="search" id="matchFiltro"
+                 placeholder="Filtrar por nome ou habilidade..."
+                 aria-label="Filtrar parceiros" />
+
+          
+          <p id="matchSemResultado" style="display:none;">
+
+            Nenhum parceiro encontrado para esse filtro.
+          </p>
+
+        </section>
+
+        
+
+        
+        <section class="match-grid" aria-label="Parceiros recomendados">
+
+          
+
+          
+          <article class="match-card"
+                   th:each="resultado : ${resultadosMatch}"
+                   th:attr="data-usuario-id=${resultado.usuario.idUsuario}">
+
+            
+            <div class="match-user">
+
+              
+
+              
+              <span class="match-avatar"
+                    th:text="${#strings.substring(resultado.usuario.nome, 0, 1)}">U</span>
+
+              
+              <div>
+
+                
+                <h2 th:text="${resultado.usuario.nome}">Usuário</h2>
+
+                
+
+                
+                <span class="match-score-badge"
+                      th:if="${resultado.pontuacao > 0}"
+                      th:text="${resultado.pontuacao} + ' ponto(s) de compatibilidade'">
+
+                </span>
+
+                
+                <span class="match-score-badge match-score-zero"
+                      th:if="${resultado.pontuacao == 0}">
+
+                  Sem sobreposição de perfil
+                </span>
+
+              </div>
+
+            </div>
+
+            
+
+            
+            <div class="match-reason" th:if="${resultado.temCompatibilidade()}">
+
+              
+              <span aria-hidden="true">💡</span>
+
+              
+              <div>
+
+                
+
+                
+                <p th:if="${!#strings.isEmpty(resultado.podeTeEnsinar)}">
+
+                  
+                  <strong>Pode te ensinar:</strong>
+
+                  
+                  <span th:text="${resultado.podeTeEnsinar}"></span>
+
+                </p>
+
+                
+
+                
+                <p th:if="${!#strings.isEmpty(resultado.voceEnsinaEle)}">
+
+                  
+                  <strong>Você pode ensinar:</strong>
+
+                  
+                  <span th:text="${resultado.voceEnsinaEle}"></span>
+
+                </p>
+
+                
+
+                
+                <p th:if="${!#strings.isEmpty(resultado.interessesComuns)}">
+
+                  
+                  <strong>Interesses em comum:</strong>
+
+                  
+                  <span th:text="${resultado.interessesComuns}"></span>
+
+                </p>
+
+              </div>
+
+            </div>
+
+            
+
+            
+            <div class="match-reason match-reason-fraco" th:if="${!resultado.temCompatibilidade()}">
+
+              
+              <span aria-hidden="true">🤝</span>
+
+              
+              <p>Pode ser uma boa conexão de estudos, mesmo sem sobreposição direta de perfil.</p>
+
+            </div>
+
+            
+            
+            <th:block th:if="${conectadosIds != null and conectadosIds.contains(resultado.usuario.idUsuario)}">
+
+              
+              <span class="connect-chat-button ja-conectado" style="opacity:.6;cursor:default;pointer-events:none;">✓ Já conectado</span>
+
+              
+              <a class="connect-chat-button"
+                 th:href="@{/chat/{id}(id=${resultado.usuario.idUsuario})}"
+                 style="margin-top:6px;">Conversar →</a>
+
+            </th:block>
+
+            
+            
+            <a class="connect-chat-button"
+               th:if="${conectadosIds == null or !conectadosIds.contains(resultado.usuario.idUsuario)}"
+               th:href="@{/chat/{id}(id=${resultado.usuario.idUsuario})}"
+               th:attr="data-dest-id=${resultado.usuario.idUsuario}">Conectar e Conversar</a>
+
+          </article>
+
+          
+
+          
+          <article class="match-card" th:if="${#lists.isEmpty(resultadosMatch)}">
+
+            
+            <div class="match-user">
+
+              
+              <span class="match-avatar">?</span>
+
+              
+              <h2>Nenhum usuário cadastrado ainda</h2>
+
+            </div>
+
+            
+            <div class="match-reason">
+
+              
+              <span aria-hidden="true">💡</span>
+
+              
+              <p>As sugestões aparecem assim que outros usuários se cadastrarem.</p>
+
+            </div>
+
+          </article>
+
+        </section>
+
+      </main>
+
+    </div>
+
+    
+    <th:block th:replace="~{fragments/topbar :: chat-widget}"></th:block>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+
+  </body>
+
+</html>

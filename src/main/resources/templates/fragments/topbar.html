@@ -1,0 +1,349 @@
+
+<!DOCTYPE html>
+
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<body>
+
+  
+
+  
+  <!-- Fragmento top-bar: usado no topo das paginas para mostrar logo, navegacao, busca e menu do usuario. -->
+  <header th:fragment="top-bar(activePage)" class="top-bar">
+
+    
+    <a class="brand app-logo" href="/" aria-label="SkillShare">
+
+      
+      <span class="app-logo-mark"><span></span></span>
+
+      
+      <strong>SkillShare</strong>
+
+    </a>
+
+    
+    <nav class="top-nav" aria-label="Menu principal">
+
+      
+      <a href="/" class="top-nav-link"
+         th:classappend="${activePage == 'inicio'} ? ' active' : ''">Inicio</a>
+
+      
+      <a href="/feed" class="top-nav-link"
+         th:classappend="${activePage == 'feed'} ? ' active' : ''">Feed</a>
+
+      
+      <a href="/match" class="top-nav-link"
+         th:classappend="${activePage == 'match'} ? ' active' : ''">Match</a>
+
+      
+      <a href="/materiais-repositorio" class="top-nav-link"
+         th:classappend="${activePage == 'materiais'} ? ' active' : ''">Materiais</a>
+
+      
+      <a href="/busca" class="top-nav-link"
+         th:classappend="${activePage == 'busca'} ? ' active' : ''">Explorar</a>
+
+    </nav>
+
+    
+    <div class="account-area">
+
+      
+      <a class="search-icon-button" href="/busca" aria-label="Pesquisar"></a>
+
+      
+      <div class="account-menu">
+
+        
+        <button class="account-profile-link account-menu-button" type="button" aria-label="Abrir menu da conta">
+
+          
+          <span class="top-avatar top-avatar-placeholder" id="topAvatarPlaceholder"
+                data-default-profile-avatar="true"
+                th:text="${currentUser != null ? #strings.substring(currentUser.nome, 0, 1) : 'U'}">U</span>
+
+          
+          <img id="topAvatarImg" class="top-avatar"
+               th:src="@{/usuarios/{id}/foto(id=${currentUser != null ? currentUser.idUsuario : 0})}"
+               th:alt="${currentUser != null ? currentUser.nome : 'Usuário'}"
+               style="display:none;"
+               onerror="this.style.display='none';window.SkillShareAvatars&&window.SkillShareAvatars.showDefault('topAvatarPlaceholder');"
+               onload="this.style.display='';document.getElementById('topAvatarPlaceholder').style.display='none';"/>
+
+          
+          <span id="topUserName" th:text="${currentUser != null ? currentUser.nome : 'Usuário'}">Usuário</span>
+
+        </button>
+
+        
+        <div class="account-dropdown">
+
+          
+          <a href="/perfil">Meu Perfil</a>
+
+          
+          <a href="/configuracao-conta">Configurações</a>
+
+          
+          <button type="button" class="acessibilidade-btn"
+                  onclick="var toggle=document.querySelector('[data-customize-toggle]'); if(toggle){ toggle.click(); } else { window.location.href='/acessibilidade'; }">
+            Acessibilidade
+          </button>
+
+          
+          <form action="/logout" method="post">
+
+            
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+            
+            <button type="submit">Sair</button>
+
+          </form>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    
+    <script src="/js/global-theme.js" defer></script>
+
+    
+    <script src="/js/global-accessibility.js" defer></script>
+
+    
+    <script src="/js/global-i18n.js" defer></script>
+
+    
+    <script src="/js/default-avatar.js" defer></script>
+
+  </header>
+
+  
+
+  
+  <!-- Fragmento chat-widget: adiciona um chat flutuante com conversas recentes e envio rapido de mensagens. -->
+  <th:block th:fragment="chat-widget">
+
+    
+    <section class="floating-chat" id="floatingChat" aria-label="Chat">
+
+      
+      
+      <button class="floating-chat-tab" type="button" id="floatingChatTab"
+              aria-label="Abrir ou fechar chat"
+              onclick="document.getElementById('floatingChat').classList.toggle('open')">
+
+        
+        <span class="floating-chat-avatar widget-avatar-stack" id="widgetAvatar">
+          
+          <span th:if="${!#lists.isEmpty(conversasWidget)}"
+                th:with="p=${conversasWidget[0].remetente != null and conversasWidget[0].remetente.idUsuario != (currentUser != null ? currentUser.idUsuario : 0) ? conversasWidget[0].remetente : conversasWidget[0].destinatario}"
+                class="widget-avatar-fallback"
+                id="widgetTabAvatarFallback"
+                th:text="${p != null ? #strings.substring(p.nome, 0, 1) : 'C'}">C</span>
+          
+          <img th:if="${!#lists.isEmpty(conversasWidget)}"
+               th:with="p=${conversasWidget[0].remetente != null and conversasWidget[0].remetente.idUsuario != (currentUser != null ? currentUser.idUsuario : 0) ? conversasWidget[0].remetente : conversasWidget[0].destinatario}"
+               class="widget-avatar-photo js-widget-photo"
+               style="display:none;"
+               th:src="@{/usuarios/{id}/foto(id=${p != null ? p.idUsuario : 0})}"
+               th:alt="${p != null ? p.nome : 'Chat'}"
+               data-placeholder-id="widgetTabAvatarFallback" />
+          
+          <span th:if="${#lists.isEmpty(conversasWidget)}">C</span>
+        </span>
+
+        
+        <span>Chat</span>
+
+        
+        <strong id="widgetBadge" style="display:none;background:#f44336;color:#fff;border-radius:999px;padding:0 6px;font-size:11px;">0</strong>
+
+      </button>
+
+      
+      
+      <div class="floating-chat-window" id="widgetWindow">
+
+        
+        
+        <div id="widgetLista">
+
+          
+          <header class="floating-chat-header">
+            
+            <h2>Mensagens</h2>
+            
+            <button type="button" onclick="document.getElementById('floatingChat').classList.remove('open')"
+                    aria-label="Fechar">×</button>
+          </header>
+
+          
+          <div class="floating-chat-body" id="widgetListaBody">
+
+            
+            <div class="widget-conv-item" th:each="conv, iter : ${conversasWidget}"
+                 th:with="parceiro=${conv.remetente != null and conv.remetente.idUsuario != (currentUser != null ? currentUser.idUsuario : 0) ? conv.remetente : conv.destinatario}"
+                 th:attr="data-parceiro-id=${parceiro != null ? parceiro.idUsuario : 0},data-parceiro-nome=${parceiro != null ? parceiro.nome : 'Usuário'}"
+                 style="display:flex;align-items:center;gap:10px;padding:10px 14px;cursor:pointer;border-bottom:1px solid #f0f2f7;"
+                 onclick="widgetAbrirChat(this.dataset.parceiroId, this.dataset.parceiroNome)">
+
+              
+              <span class="widget-av widget-avatar-stack"
+                    style="width:36px;height:36px;border-radius:50%;background:#4169dc;color:#fff;display:grid;place-items:center;font-weight:900;flex-shrink:0;">
+                
+                <span class="widget-avatar-fallback"
+                      th:id="${'widgetConvAvatarFallback-' + iter.index}"
+                      th:text="${parceiro != null ? #strings.substring(parceiro.nome, 0, 1) : 'U'}">U</span>
+                
+                <img class="widget-avatar-photo js-widget-photo"
+                     style="display:none;"
+                     th:src="@{/usuarios/{id}/foto(id=${parceiro != null ? parceiro.idUsuario : 0})}"
+                     th:alt="${parceiro != null ? parceiro.nome : 'Usuário'}"
+                     th:attr="data-placeholder-id=${'widgetConvAvatarFallback-' + iter.index}" />
+              </span>
+
+              
+              <div style="min-width:0;flex:1;">
+                
+                <strong style="display:block;font-size:13px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"
+                        th:text="${parceiro != null ? parceiro.nome : 'Usuário'}">Nome</strong>
+                
+                <span style="font-size:12px;color:#888;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;display:block;"
+                      th:text="${#strings.abbreviate(conv.texto, 36)}">última msg</span>
+              </div>
+
+            </div>
+
+            
+            <p th:if="${#lists.isEmpty(conversasWidget)}"
+               style="padding:20px;color:#a0a7b8;text-align:center;font-style:italic;margin:0;">
+              Nenhuma conversa ainda.
+            </p>
+
+          </div>
+
+          
+          <div style="padding:10px 14px;border-top:1px solid #f0f2f7;">
+            
+            <a href="/mensagens-lista"
+               style="display:block;text-align:center;background:#4169dc;color:#fff;padding:7px;border-radius:999px;font-size:12px;font-weight:700;text-decoration:none;">
+              Ver todas
+            </a>
+          </div>
+
+        </div>
+
+        
+        
+        <div id="widgetChat" style="display:none;flex-direction:column;height:100%;">
+
+          
+          <header class="floating-chat-header" style="cursor:pointer;" onclick="widgetVoltarLista()">
+            
+            <div style="display:flex;align-items:center;gap:8px;">
+              
+              <span style="font-size:18px;">←</span>
+              
+              <h2 id="widgetChatNome" style="margin:0;">Chat</h2>
+            </div>
+            
+            <button type="button" onclick="event.stopPropagation();document.getElementById('floatingChat').classList.remove('open')"
+                    aria-label="Fechar">×</button>
+          </header>
+
+          
+          <div class="floating-chat-body" id="widgetThread"
+               style="flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:6px;padding:10px 12px;">
+          </div>
+
+          
+          <div style="padding:8px 12px;border-top:1px solid #f0f2f7;display:flex;gap:6px;">
+
+            
+            <input type="text" id="widgetInput"
+                   placeholder="Mensagem..."
+                   style="flex:1;padding:8px 12px;border:1.5px solid #dde1ee;border-radius:999px;font:inherit;font-size:13px;outline:0;"
+                   onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();widgetEnviar();}" />
+
+            
+            <button type="button" onclick="widgetEnviar()"
+                    style="padding:8px 14px;background:#4169dc;color:#fff;border:0;border-radius:999px;font-weight:700;cursor:pointer;">➜</button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js" defer></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@stomp/stompjs@7/bundles/stomp.umd.min.js" defer></script>
+    
+    <script th:inline="javascript">
+      var _widgetCurrentUserId = /*[[${currentUser != null ? currentUser.idUsuario : 0}]]*/ 0;
+    </script>
+    
+    <script src="/js/chat-widget.js" defer></script>
+
+  </th:block>
+
+  
+
+  
+  <!-- Fragmento vlibras: carrega o widget de Libras e scripts globais compartilhados pelas paginas. -->
+  <th:block th:fragment="vlibras">
+
+    
+    <div vw class="enabled">
+
+      
+      <div vw-access-button class="active"></div>
+
+      
+      <div vw-plugin-wrapper>
+
+        
+        <div class="vw-plugin-top-wrapper"></div>
+
+      </div>
+
+    </div>
+
+    
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+
+    
+    <script>new window.VLibras.Widget('https://vlibras.gov.br/app');</script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/gsap.min.js"></script>
+
+    
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3/dist/ScrollTrigger.min.js"></script>
+
+    
+    <script src="/js/libs/lottie.js" defer></script>
+
+
+    <script src="/js/animacoes.js" defer></script>
+
+
+    <script src="/js/global-background.js" defer></script>
+
+  </th:block>
+
+</body>
+
+</html>

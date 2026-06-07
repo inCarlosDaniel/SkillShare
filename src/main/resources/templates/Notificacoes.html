@@ -1,0 +1,182 @@
+
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <title>Notificacoes - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/comunidade.css" />
+
+    
+    <link rel="stylesheet" href="/css/barra-topo.css" />
+
+    
+    <script src="/js/notificacoes.js" defer></script>
+
+  </head>
+
+  <body>
+
+    <!-- Notificacoes: separa pedidos de conexao e mensagens recebidas, com filtro de lidas/nao lidas. -->
+
+    
+    <div class="community-window">
+
+
+      
+      <header th:replace="~{fragments/topbar :: top-bar('')}"></header>
+
+      
+      <main class="notifications-shell">
+
+        
+        <h1>Minhas Notificacoes <span id="badgeNaoLidas" class="badge-nao-lidas" style="display:none;"></span></h1>
+
+        
+
+        
+        <div class="notif-abas" style="display:flex;gap:10px;margin:12px 0 20px;">
+
+          
+          <button id="abaTodas"    class="filter-pill active" type="button">Todas</button>
+
+          
+          <button id="abaNaoLidas" class="filter-pill"        type="button">Nao lidas</button>
+
+        </div>
+
+        
+        <section class="notifications-card" aria-label="Lista de notificacoes">
+
+          
+
+          
+          <th:block th:if="${conexoes != null and !#lists.isEmpty(conexoes)}">
+
+            
+            <div style="padding:14px 20px 6px;font-size:12px;font-weight:800;color:#737987;text-transform:uppercase;letter-spacing:.06em;">
+
+              Novas Conexoes
+            </div>
+
+            
+            <article class="notification-row" th:each="conexao : ${conexoes}">
+
+              
+              <span class="notification-icon" aria-hidden="true" style="background:#eef1ff;color:#4169dc;">&#129309;</span>
+
+              
+              <div class="notification-content">
+
+                <p>
+
+                  
+                  <strong th:text="${conexao.remetente != null ? conexao.remetente.nome : 'Alguem'}">Usuario</strong>
+
+                  conectou-se com voce!
+                  
+                  <a th:href="@{/chat/{id}(id=${conexao.remetente != null ? conexao.remetente.idUsuario : 0})}"
+                     style="color:#4169dc;font-weight:700;margin-left:6px;">Conversar &#8594;</a>
+
+                </p>
+
+                
+                <time th:datetime="${conexao.dataEnvio}"
+                      th:text="${conexao.dataEnvio != null ? #temporals.format(conexao.dataEnvio, 'dd/MM HH:mm') : 'Agora'}">Agora</time>
+
+              </div>
+
+            </article>
+
+          </th:block>
+
+          
+
+          
+          <th:block th:if="${mensagens != null and !#lists.isEmpty(mensagens)}">
+
+            
+            <div style="padding:14px 20px 6px;font-size:12px;font-weight:800;color:#737987;text-transform:uppercase;letter-spacing:.06em;">
+
+              Mensagens
+            </div>
+
+            
+            <article class="notification-row" th:each="mensagem : ${mensagens}"
+                     th:classappend="${!mensagem.lida} ? ' unread' : ''">
+
+              
+              <span class="notification-icon heart" aria-hidden="true"></span>
+
+              
+              <div class="notification-content">
+
+                <p>
+
+                  
+                  <strong th:text="${mensagem.remetente != null ? mensagem.remetente.nome : 'Usuario'}">Usuario</strong>
+
+                  enviou uma mensagem:
+                  
+                  <span th:text="${mensagem.texto}">Mensagem</span>
+
+                </p>
+
+                
+                <time th:datetime="${mensagem.dataEnvio}"
+                      th:text="${mensagem.dataEnvio != null ? #temporals.format(mensagem.dataEnvio, 'dd/MM HH:mm') : 'Agora'}">Agora</time>
+
+              </div>
+
+              
+              <a th:href="@{/chat/{id}(id=${mensagem.remetente != null ? mensagem.remetente.idUsuario : 0})}"
+                 class="message-button">Responder</a>
+
+            </article>
+
+          </th:block>
+
+          
+
+          
+          <article class="notification-row empty-notification-row"
+                   th:if="${(conexoes == null or #lists.isEmpty(conexoes)) and (mensagens == null or #lists.isEmpty(mensagens))}">
+
+            
+            <div class="notification-content">
+
+              <p>Nenhuma notificacao ainda. Conecte-se com parceiros no <a href="/match" style="color:#4169dc;font-weight:700;">Match</a>!</p>
+
+            </div>
+
+          </article>
+
+        </section>
+
+      </main>
+
+    </div>
+
+    
+    <th:block th:replace="~{fragments/topbar :: chat-widget}"></th:block>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+  </body>
+
+</html>

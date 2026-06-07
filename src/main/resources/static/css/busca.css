@@ -1,0 +1,388 @@
+
+      .busca-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+        width: min(1120px, calc(100vw - 48px));
+        margin: 24px auto 0;
+      }
+
+      .search-filters {
+        align-items: center;
+        justify-content: flex-start;
+      }
+
+      .filter-pill {
+        min-width: 88px;
+        min-height: 42px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0 22px;
+        line-height: 1;
+        text-align: center;
+      }
+
+      .search-clear-button {
+        position: absolute;
+        right: 130px;
+        top: 50%;
+        width: 34px;
+        height: 34px;
+        transform: translateY(-50%);
+        border: 0;
+        border-radius: 50%;
+        background: rgba(115, 121, 135, .1);
+        cursor: pointer;
+      }
+
+      .search-clear-button::before,
+      .search-clear-button::after {
+        content: "";
+        position: absolute;
+        left: 10px;
+        top: 16px;
+        width: 14px;
+        height: 2px;
+        border-radius: 999px;
+        background: #737987;
+      }
+
+      .search-clear-button::before { transform: rotate(45deg); }
+
+      .search-clear-button::after { transform: rotate(-45deg); }
+
+      .busca-card {
+        border-radius: 8px;
+        background: rgba(255, 255, 255, .96);
+        border: 1px solid rgba(255, 255, 255, .76);
+        box-shadow: 0 14px 34px rgba(29, 40, 76, .11);
+        overflow: hidden;
+        animation: cardRise .45s ease both;
+      }
+
+      .busca-card-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 58px;
+        padding: 0 24px;
+        border-bottom: 1px solid #edf0f7;
+      }
+
+      .busca-card-postagens  { background: linear-gradient(90deg, #f2f5ff, #fbfcff); border-left: 4px solid #4169dc; }
+      .busca-card-grupos     { background: linear-gradient(90deg, #f2fbf5, #fbfffc); border-left: 4px solid #2f6839; }
+      .busca-card-materiais  { background: linear-gradient(90deg, #fff7e8, #fffdf8); border-left: 4px solid #e8901a; }
+      .busca-card-membros    { background: linear-gradient(90deg, #f8f0ff, #fffaff); border-left: 4px solid #7c3aed; }
+
+      .busca-card-icon {
+        width: 22px;
+        height: 22px;
+        display: inline-block;
+        position: relative;
+        flex: 0 0 auto;
+      }
+
+      .busca-card-icon::before,
+      .busca-card-icon::after {
+        content: "";
+        position: absolute;
+        box-sizing: border-box;
+      }
+
+      .busca-card-postagens .busca-card-icon::before {
+        inset: 3px 5px;
+        border: 2px solid #4169dc;
+        border-radius: 3px;
+        background: rgba(65, 105, 220, .08);
+      }
+
+      .busca-card-postagens .busca-card-icon::after {
+        left: 8px;
+        right: 8px;
+        top: 8px;
+        height: 2px;
+        background: #4169dc;
+        box-shadow: 0 5px 0 #4169dc;
+      }
+
+      .busca-card-grupos .busca-card-icon::before,
+      .busca-card-grupos .busca-card-icon::after {
+        width: 9px;
+        height: 9px;
+        border-radius: 50%;
+        background: #2f6839;
+        top: 3px;
+      }
+
+      .busca-card-grupos .busca-card-icon::before {
+        left: 2px;
+        box-shadow: 3px 10px 0 rgba(47, 104, 57, .72);
+      }
+
+      .busca-card-grupos .busca-card-icon::after {
+        right: 2px;
+        box-shadow: -3px 10px 0 rgba(47, 104, 57, .72);
+      }
+
+      .busca-card-materiais .busca-card-icon::before {
+        inset: 2px 4px;
+        border: 2px solid #e8901a;
+        border-radius: 3px;
+        background: rgba(232, 144, 26, .1);
+      }
+
+      .busca-card-materiais .busca-card-icon::after {
+        top: 6px;
+        left: 8px;
+        width: 8px;
+        height: 2px;
+        background: #e8901a;
+        box-shadow: 0 5px 0 #e8901a, 0 10px 0 #e8901a;
+      }
+
+      .busca-card-membros .busca-card-icon::before {
+        width: 10px;
+        height: 10px;
+        left: 6px;
+        top: 2px;
+        border-radius: 50%;
+        background: #7c3aed;
+      }
+
+      .busca-card-membros .busca-card-icon::after {
+        left: 3px;
+        right: 3px;
+        bottom: 2px;
+        height: 10px;
+        border-radius: 999px 999px 4px 4px;
+        background: rgba(124, 58, 237, .72);
+      }
+
+      .busca-card-header h2 {
+        flex: 1;
+        margin: 0;
+        font-size: 15px;
+        font-weight: 900;
+        color: #202333;
+        text-transform: uppercase;
+        letter-spacing: .03em;
+        line-height: 1;
+      }
+
+      .busca-card-count {
+        min-width: 28px;
+        height: 28px;
+        border-radius: 999px;
+        background: rgba(65, 105, 220, .1);
+        color: #4169dc;
+        font-size: 12px;
+        font-weight: 900;
+        display: grid;
+        place-items: center;
+        padding: 0 8px;
+      }
+
+      .busca-card-body { padding: 6px 0; }
+
+      .busca-item {
+        display: grid;
+        grid-template-columns: 42px minmax(0, 1fr) auto;
+        align-items: center;
+        gap: 14px;
+        min-height: 70px;
+        padding: 10px 24px;
+        border-bottom: 1px solid #f2f4f9;
+        transition: background .15s ease;
+      }
+
+      .busca-item:last-child { border-bottom: none; }
+
+      .busca-item:hover { background: #f8f9ff; }
+
+      .busca-item-avatar {
+        width: 42px;
+        height: 42px;
+        border-radius: 50%;
+        background: #4169dc;
+        color: #fff;
+        font-size: 16px;
+        font-weight: 900;
+        display: grid;
+        place-items: center;
+        flex-shrink: 0;
+      }
+
+      .busca-avatar-stack {
+        position: relative;
+        display: block;
+        width: 42px;
+        height: 42px;
+        flex: 0 0 auto;
+      }
+
+      .busca-avatar-stack > .busca-item-avatar {
+        position: absolute;
+        inset: 0;
+      }
+
+      .busca-avatar-foto {
+        display: none;
+        object-fit: cover;
+      }
+
+      .busca-avatar-icon {
+        position: relative;
+      }
+
+      .busca-avatar-grupo::before,
+      .busca-avatar-grupo::after,
+      .busca-avatar-material::before,
+      .busca-avatar-material::after {
+        content: "";
+        position: absolute;
+        box-sizing: border-box;
+      }
+
+      .busca-avatar-grupo::before {
+        width: 12px;
+        height: 12px;
+        left: 9px;
+        top: 10px;
+        border-radius: 50%;
+        background: #fff;
+        box-shadow: 12px 0 0 rgba(255, 255, 255, .92);
+      }
+
+      .busca-avatar-grupo::after {
+        left: 8px;
+        right: 8px;
+        bottom: 10px;
+        height: 10px;
+        border-radius: 999px 999px 5px 5px;
+        background: rgba(255, 255, 255, .9);
+      }
+
+      .busca-avatar-material::before {
+        width: 18px;
+        height: 22px;
+        left: 12px;
+        top: 9px;
+        border-radius: 3px;
+        border: 2px solid #fff;
+        background: rgba(255, 255, 255, .18);
+      }
+
+      .busca-avatar-material::after {
+        left: 16px;
+        top: 16px;
+        width: 10px;
+        height: 2px;
+        border-radius: 999px;
+        background: #fff;
+        box-shadow: 0 5px 0 #fff;
+      }
+
+      .busca-avatar-grupo   { background: #2f6839; }
+      .busca-avatar-material { background: #e8901a; }
+      .busca-avatar-membro  { background: #7c3aed; }
+
+      .busca-item-info {
+        min-width: 0;
+      }
+
+      .busca-item-info strong {
+        display: block;
+        font-size: 15px;
+        font-weight: 900;
+        color: #202333;
+        line-height: 1.2;
+        margin-bottom: 4px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .busca-item-info p {
+        margin: 0;
+        font-size: 12px;
+        line-height: 1.35;
+        color: #6f7688;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .busca-item-acao {
+        min-width: 92px;
+        height: 36px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 999px;
+        background: #f0f4ff;
+        color: #4169dc;
+        font-size: 12px;
+        font-weight: 900;
+        text-decoration: none;
+        transition: background .2s ease, transform .15s ease;
+        white-space: nowrap;
+      }
+
+      .busca-item-acao:hover {
+        background: #dde6ff;
+        transform: translateY(-1px);
+      }
+
+      .busca-item-acao-chat {
+        background: #f0fff4;
+        color: #2f6839;
+      }
+
+      .busca-item-acao-chat:hover { background: #d0f0dc; }
+
+      .busca-vazio {
+        text-align: center;
+        padding: 60px 20px;
+        color: #737987;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, .92);
+        box-shadow: 0 14px 34px rgba(29, 40, 76, .1);
+      }
+
+      .busca-vazio-icon {
+        width: 54px;
+        height: 54px;
+        margin: 0 auto 16px;
+        border: 4px solid #4169dc;
+        border-radius: 50%;
+        position: relative;
+        opacity: .84;
+      }
+
+      .busca-vazio-icon::after {
+        content: "";
+        position: absolute;
+        width: 18px;
+        height: 4px;
+        right: -12px;
+        bottom: 2px;
+        border-radius: 999px;
+        background: #4169dc;
+        transform: rotate(45deg);
+      }
+
+      .busca-vazio p {
+        font-size: 17px;
+        line-height: 1.6;
+        margin: 0;
+      }
+
+      @media (max-width: 640px) {
+        .busca-grid { width: min(100%, calc(100vw - 28px)); }
+        .busca-item { grid-template-columns: 36px 1fr; gap: 10px; }
+        .busca-item-acao { display: none; }
+        .busca-item-avatar { width: 36px; height: 36px; font-size: 14px; }
+        .busca-card-header { padding: 14px 16px; }
+        .busca-item { padding: 12px 16px; }
+      }

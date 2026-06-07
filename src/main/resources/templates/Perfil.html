@@ -1,0 +1,275 @@
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta name="_csrf" th:content="${_csrf.token}" />
+
+    
+    <title>Perfil - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/barra-topo.css" />
+
+    
+    <link rel="stylesheet" href="/css/inicio.css" />
+
+    
+    <link rel="stylesheet" href="/css/perfil.css" />
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+
+    
+    <script src="/js/perfil.js" defer></script>
+
+  </head>
+
+  <body>
+
+    <!-- Perfil: mostra dados do usuario logado, foto e tags de aprendizado editaveis. -->
+
+    
+    <div class="browser-window">
+
+
+      
+      <header th:replace="~{fragments/topbar :: top-bar('')}"></header>
+
+      
+      <main class="profile-page-layout">
+
+        
+        <section class="profile-card profile-editor-card">
+
+          
+
+          
+          <a class="profile-cover-link" href="/perfil" aria-label="Foto de perfil">
+
+            
+            <span class="profile-cover profile-cover-placeholder" id="profilePlaceholder"
+                  data-default-profile-avatar="true"
+                  th:text="${currentUser != null ? #strings.substring(currentUser.nome, 0, 1) : 'U'}">U</span>
+
+            
+            
+            
+            <img id="profilePhoto" class="profile-cover"
+                 src="/usuarios/foto"
+                 th:alt="${currentUser != null ? currentUser.nome : 'Foto de perfil'}"
+                 style="display:none;object-fit:cover;"
+                 onerror="this.style.display='none';window.SkillShareAvatars&&window.SkillShareAvatars.showDefault('profilePlaceholder');"
+                 onload="this.style.display='block';document.getElementById('profilePlaceholder').style.display='none';" />
+
+          </a>
+
+          
+          <div class="profile-info">
+
+            
+            <h2 id="profileName" th:text="${currentUser != null ? currentUser.nome : 'Usuário'}">Usuário</h2>
+
+            
+            <p><span class="online-dot ativo"></span> Online</p>
+
+          </div>
+
+          
+          <button id="editProfileButton" class="create-post-button" type="button">
+
+            Editar Perfil
+          </button>
+
+          
+          <div id="editProfilePanel" class="edit-profile-panel" hidden>
+
+            
+            <form id="profileUploadForm" class="profile-upload-form">
+
+              
+              <label class="photo-picker">
+
+                
+                <input id="profileImageInput" type="file" accept="image/*" />
+
+                
+                <span id="selectedFileName">Escolher foto</span>
+
+              </label>
+
+              
+              <button class="profile-action-button" type="submit">Enviar</button>
+
+            </form>
+
+            
+            <a id="downloadProfilePhoto"
+               class="profile-action-button download disabled"
+               href="/materiais-repositorio"
+               aria-disabled="true">Download</a>
+
+            
+            <p id="profileMessage" class="profile-message" aria-live="polite"></p>
+
+          </div>
+
+        </section>
+
+        
+        <section class="projects-panel profile-details-panel">
+
+          
+          <form id="learningProfileForm" class="learning-profile-form">
+
+            
+            <div class="learning-field">
+
+              
+              <label for="skillsInput">Habilidades <span class="tag-field-hint">(máx. 5)</span></label>
+
+              
+              <input type="text" id="skillsInput" maxlength="200"
+                     placeholder="Ex: Java, HTML, desenho" />
+
+            </div>
+
+            
+            <div class="learning-field">
+
+              
+              <label for="interestsInput">Interesses <span class="tag-field-hint">(máx. 5)</span></label>
+
+              
+              <input type="text" id="interestsInput" maxlength="200"
+                     placeholder="Ex: Spring Boot, inglês, Excel" />
+
+            </div>
+
+            
+            <div class="learning-field">
+
+              
+              <label for="difficultiesInput">Dificuldades <span class="tag-field-hint">(máx. 5)</span></label>
+
+              
+              <input type="text" id="difficultiesInput" maxlength="200"
+                     placeholder="Ex: matemática, apresentação, lógica" />
+
+            </div>
+
+            
+            <div class="learning-profile-actions">
+
+              
+              <button class="profile-action-button" type="submit">Adicionar</button>
+
+              
+              <p id="learningProfileMessage" class="profile-message" aria-live="polite"></p>
+
+            </div>
+
+          </form>
+
+          
+          <div class="skill-section">
+
+            
+            <h1>Minhas Habilidades (O que posso ensinar)</h1>
+
+            
+            <div id="skillsTags" class="tags">
+
+              
+              <span class="tag teach"
+                    th:if="${currentUser != null && currentUser.habilidades != null && !#strings.isEmpty(currentUser.habilidades)}"
+                    th:text="${currentUser.habilidades}"> Habilidades </span>
+
+              
+              <span class="tag empty"
+                    th:if="${currentUser == null || currentUser.habilidades == null || #strings.isEmpty(currentUser.habilidades)}">
+
+                Nenhuma habilidade cadastrada
+              </span>
+
+            </div>
+
+          </div>
+
+          
+          <div class="skill-section">
+
+            
+            <h1> Meus Interesses (O que quero aprender) </h1>
+
+            
+            <div id="interestTags" class="tags">
+
+              
+              <span class="tag interest"
+                    th:if="${currentUser != null && currentUser.interesses != null && !#strings.isEmpty(currentUser.interesses)}"
+                    th:text="${currentUser.interesses}">Interesses</span>
+
+              
+              <span class="tag empty"
+                    th:if="${currentUser == null || currentUser.interesses == null || #strings.isEmpty(currentUser.interesses)}">
+
+                Nenhum interesse cadastrado
+              </span>
+
+            </div>
+
+          </div>
+
+          
+          <div class="skill-section">
+
+            
+            <h1>Minhas Dificuldades (Onde preciso de ajuda)</h1>
+
+            
+            <div id="difficultyTags" class="tags">
+
+              
+              <span class="tag difficulty"
+                    th:if="${currentUser != null && currentUser.dificuldades != null && !#strings.isEmpty(currentUser.dificuldades)}"
+                    th:text="${currentUser.dificuldades}">Dificuldades</span>
+
+              
+              <span class="tag empty"
+                    th:if="${currentUser == null || currentUser.dificuldades == null || #strings.isEmpty(currentUser.dificuldades)}">
+
+                Nenhuma dificuldade cadastrada
+              </span>
+
+            </div>
+
+          </div>
+
+        </section>
+
+      </main>
+
+    </div>
+
+    
+    <th:block th:replace="~{fragments/topbar :: chat-widget}"></th:block>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+  </body>
+
+</html>

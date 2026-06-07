@@ -1,0 +1,98 @@
+
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <title>Validando informações - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/autenticacao.css" />
+
+    
+    <link rel="stylesheet" href="/css/validando-informacoes.css" />
+
+    
+    <script src="/js/global-theme.js" defer></script>
+
+    
+    <script src="/js/libs/lottie.js" defer></script>
+
+    
+    <script src="/js/validando-informacoes.js" defer></script>
+
+  </head>
+
+  
+  <body class="auth-page validation-page">
+
+    <!-- Tela de transicao: mostra a validacao visual antes de levar o usuario para completar o perfil. -->
+
+    
+    <main class="validation-shell" aria-live="polite">
+
+      
+      <section class="auth-card validation-card">
+
+        
+        <div id="validationAnimation" class="validation-animation" aria-hidden="true"></div>
+
+        
+        <div class="validation-content">
+
+          
+          <div class="auth-logo">
+
+            
+            <div class="brand-mark-small"><span></span></div>
+
+            
+            <strong>SkillShare</strong>
+
+          </div>
+
+          
+          <h1>Um momento</h1>
+
+          
+          <p>Estamos validando toda sua informação</p>
+
+          
+          <div class="validation-loader" aria-hidden="true">
+
+            
+            <span></span>
+
+            
+            <span></span>
+
+            
+            <span></span>
+
+          </div>
+
+        </div>
+
+      </section>
+
+    </main>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+  </body>
+
+</html>

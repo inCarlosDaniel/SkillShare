@@ -1,0 +1,240 @@
+
+      /* Aviso para não-membros */
+      .nao-membro-aviso {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 48px 32px;
+        text-align: center;
+        border: 1px solid rgba(255,255,255,.76);
+        border-radius: 22px;
+        background: rgba(255,255,255,.94);
+        box-shadow: 0 22px 38px rgba(29,40,76,.14);
+      }
+
+      .nao-membro-aviso p {
+        color: #626978;
+        font-size: 18px;
+        line-height: 1.55;
+        margin: 0;
+      }
+
+      .nao-membro-aviso .join-button {
+        width: auto;
+        min-width: 180px;
+        margin-top: 0;
+      }
+
+      /* Barra de ordenação do mural */
+      .mural-sort-bar {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .mural-sort-btn {
+        padding: 7px 18px;
+        border-radius: 999px;
+        border: 1.5px solid #c7d2ef;
+        background: #f2f5ff;
+        color: #3f63a8;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+        transition: background .2s, color .2s, border-color .2s;
+      }
+
+      .mural-sort-btn.active,
+      .mural-sort-btn:hover {
+        background: #4169dc;
+        color: #fff;
+        border-color: #4169dc;
+      }
+
+      /* Rodapé dos posts: upvote e comentar */
+      .mural-post-footer {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-top: 14px;
+        padding-top: 12px;
+        border-top: 1px solid #edf0f5;
+      }
+
+      .mural-upvote-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: #f2f5ff;
+        color: #3f63a8;
+        font-size: 14px;
+        font-weight: 800;
+        cursor: pointer;
+        border: none;
+        transition: background .2s ease, color .2s ease;
+      }
+
+      .mural-upvote-btn.ativo {
+        background: #4169dc;
+        color: #fff;
+      }
+
+      .mural-comment-toggle-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 14px;
+        border-radius: 999px;
+        background: #f2f5ff;
+        color: #3f63a8;
+        font-size: 14px;
+        font-weight: 800;
+        cursor: pointer;
+        border: none;
+        transition: background .2s ease;
+      }
+
+      .mural-comment-toggle-btn:hover {
+        background: #e8edff;
+      }
+
+      /* Área de comentários */
+      .mural-comentarios {
+        margin-top: 14px;
+        padding: 16px;
+        border-radius: 12px;
+        background: #f7f8fd;
+      }
+
+      .comentarios-lista {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 12px;
+      }
+
+      .comentarios-vazio {
+        color: #737987;
+        font-size: 14px;
+        margin: 0;
+      }
+
+      .comentario-item {
+        padding: 10px 14px;
+        border-radius: 10px;
+        background: #fff;
+        color: #2f3342;
+        font-size: 14px;
+        line-height: 1.45;
+      }
+
+      .comentario-form {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 8px;
+      }
+
+      .comentario-input {
+        min-height: 38px;
+        padding: 0 12px;
+        border: 1px solid #d7dce8;
+        border-radius: 10px;
+        font: inherit;
+        font-size: 14px;
+        outline: 0;
+        background: #fff;
+      }
+
+      .comentario-enviar-btn {
+        min-height: 38px;
+        padding: 0 16px;
+        border-radius: 10px;
+        background: #4169dc;
+        color: #fff;
+        font-weight: 800;
+        font-size: 13px;
+        cursor: pointer;
+        border: none;
+        transition: background .2s ease;
+      }
+
+      .comentario-enviar-btn:hover {
+        background: #365fd2;
+      }
+
+      /* Botão de excluir material */
+      .delete-material-button {
+        padding: 4px 12px;
+        border-radius: 8px;
+        background: #fdecea;
+        color: #b71c1c;
+        font-size: 13px;
+        font-weight: 800;
+        cursor: pointer;
+        border: none;
+        transition: background .2s ease;
+      }
+
+      .delete-material-button:hover {
+        background: #f9c0bb;
+      }
+
+      body.dark-theme .nao-membro-aviso,
+      body.dark-theme .mural-comentarios,
+      body.dark-theme .comentario-item {
+        background: rgba(31, 37, 52, .96);
+        border-color: rgba(255, 255, 255, .14);
+        color: #f4f6fb;
+        box-shadow: 0 18px 38px rgba(0, 0, 0, .28);
+      }
+
+      body.dark-theme .nao-membro-aviso p,
+      body.dark-theme .comentarios-vazio {
+        color: #b7bfce;
+      }
+
+      body.dark-theme .mural-post-footer {
+        border-top-color: rgba(255, 255, 255, .10);
+      }
+
+      body.dark-theme .mural-sort-btn,
+      body.dark-theme .mural-upvote-btn,
+      body.dark-theme .mural-comment-toggle-btn {
+        color: #d9e1f2;
+        background: rgba(255, 255, 255, .08);
+        border-color: rgba(255, 255, 255, .14);
+      }
+
+      body.dark-theme .mural-sort-btn.active,
+      body.dark-theme .mural-sort-btn:hover,
+      body.dark-theme .mural-upvote-btn.ativo {
+        color: #fff;
+        background: #4169dc;
+        border-color: #4169dc;
+      }
+
+      body.dark-theme .mural-comment-toggle-btn:hover {
+        background: rgba(255, 255, 255, .12);
+      }
+
+      body.dark-theme .comentario-input {
+        color: #f4f6fb;
+        background: rgba(20, 25, 36, .88);
+        border-color: rgba(255, 255, 255, .14);
+      }
+
+      body.dark-theme .comentario-input::placeholder {
+        color: #9aa6ba;
+      }
+
+      body.dark-theme .delete-material-button {
+        color: #f08080;
+        background: rgba(231, 76, 60, .14);
+      }
+
+      body.dark-theme .delete-material-button:hover {
+        background: rgba(231, 76, 60, .24);
+      }

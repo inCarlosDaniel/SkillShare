@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org" lang="pt-BR">
+
+<head>
+  
+  <meta charset="UTF-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Erro — SkillShare</title>
+  
+  <link rel="stylesheet" href="/css/base.css" />
+  
+  <link rel="stylesheet" href="/css/barra-topo.css" />
+  
+  <link rel="stylesheet" th:href="@{/css/erro.css}" />
+  
+  <script src="/js/global-theme.js" defer></script>
+  
+  <script src="/js/global-background.js" defer></script>
+</head>
+<body>
+  <!-- Erro: apresenta uma mensagem amigavel e um caminho de volta quando algo falha. -->
+
+  
+  <div th:replace="~{fragments/topbar :: top-bar(activePage='')}"></div>
+
+  
+  <main class="erro-container" aria-label="Erro">
+    
+    <p class="erro-titulo">Algo deu errado</p>
+    
+    <p class="erro-mensagem" th:text="${mensagem} ?: 'Ocorreu um erro inesperado. Tente novamente em instantes.'"></p>
+    
+    <a class="erro-voltar btn-primary" th:href="${voltarUrl} ?: '/'" >Voltar</a>
+  </main>
+
+</body>
+</html>

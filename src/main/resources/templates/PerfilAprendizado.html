@@ -1,0 +1,173 @@
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <meta name="_csrf" th:content="${_csrf.token}" />
+
+    
+    <title>Complete seu Perfil - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/autenticacao.css" />
+
+    
+    <link rel="stylesheet" href="/css/barra-topo.css" />
+
+    
+    <link rel="stylesheet" href="/css/perfil-aprendizado.css" />
+
+    
+    <script src="/js/global-theme.js" defer></script>
+
+    
+    <script src="/js/libs/lottie.js" defer></script>
+
+    
+    <script src="/js/perfil-aprendizado.js" defer></script>
+
+  </head>
+
+  
+  <body class="auth-page learning-page">
+
+    <!-- Onboarding de aprendizado: coleta habilidades, interesses e dificuldades para melhorar matches e perfil. -->
+
+    
+    <main class="learning-onboarding">
+
+      
+      <section class="learning-visual-panel" aria-label="Animacao de aprendizagem">
+
+        
+        <div class="learning-animation-shell">
+
+          
+          <div id="learningOnboardingAnimation"></div>
+
+        </div>
+
+      </section>
+
+      
+      <section class="auth-card learning-card" aria-label="Perfil de aprendizagem">
+
+        
+        <div class="auth-logo">
+
+          
+          <div class="brand-mark-small"><span></span></div>
+
+          
+          <strong>SkillShare</strong>
+
+        </div>
+
+        
+        <div class="learning-heading">
+
+          
+          <h1>Complete seu perfil</h1>
+
+          
+          <p>Conte o que voce pode ensinar, quer aprender e onde precisa de ajuda.</p>
+
+        </div>
+
+        
+        <form id="learningOnboardingForm" class="learning-form">
+
+          
+          
+          <input type="hidden" id="currentHabilidades"  th:value="${currentUser != null ? currentUser.habilidades  : ''}" />
+          
+          <input type="hidden" id="currentInteresses"   th:value="${currentUser != null ? currentUser.interesses   : ''}" />
+          
+          <input type="hidden" id="currentDificuldades" th:value="${currentUser != null ? currentUser.dificuldades  : ''}" />
+
+          
+          <label class="learning-field" for="habilidadesInput">
+
+            
+            <span>Minhas Habilidades</span>
+
+            
+            <small>O que posso ensinar (máx. 5)</small>
+
+            
+            <textarea id="habilidadesInput" name="habilidades" rows="4"
+                      placeholder="Ex: Java, inglês, matemática, design..."></textarea>
+
+          </label>
+
+          
+          <label class="learning-field" for="interessesInput">
+
+            
+            <span>Meus Interesses</span>
+
+            
+            <small>O que quero aprender (máx. 5)</small>
+
+            
+            <textarea id="interessesInput" name="interesses" rows="4"
+                      placeholder="Ex: Spring Boot, conversação, redação..."></textarea>
+
+          </label>
+
+          
+          <label class="learning-field" for="dificuldadesInput">
+
+            
+            <span>Minhas Dificuldades</span>
+
+            
+            <small>Onde preciso de ajuda (máx. 5)</small>
+
+            
+            <textarea id="dificuldadesInput" name="dificuldades" rows="4"
+                      placeholder="Ex: banco de dados, pronúncia, lógica..."></textarea>
+
+          </label>
+
+          
+          <div class="learning-actions">
+
+            
+            <a class="secondary-learning-button" href="/">Pular por agora</a>
+
+            
+            <button class="primary-learning-button" type="submit">Salvar e continuar</button>
+
+          </div>
+
+          
+          <p id="learningOnboardingMessage" class="learning-message" aria-live="polite"></p>
+
+        </form>
+
+      </section>
+
+    </main>
+
+    
+    <th:block th:replace="~{fragments/topbar :: chat-widget}"></th:block>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+  </body>
+
+</html>

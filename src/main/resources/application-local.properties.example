@@ -1,0 +1,26 @@
+# Copie este arquivo para application-local.properties e preencha com seus valores reais.
+# O arquivo application-local.properties esta no .gitignore e nao vai para o GitHub.
+
+# Chave AES-256 para criptografia de mensagens (32 bytes em Base64)
+# Gere uma nova com: openssl rand -base64 32
+app.mensagem.chave-aes=GERE_UMA_CHAVE_AES256_EM_BASE64_AQUI
+
+# E-mail usado para enviar codigos de verificacao (opcional)
+# Sem isso, o codigo aparece no terminal do servidor
+spring.mail.host=smtp.gmail.com
+spring.mail.port=587
+spring.mail.username=seu-email@gmail.com
+spring.mail.from=seu-email@gmail.com
+spring.mail.password=SUA_SENHA_DE_APP_GMAIL
+spring.mail.properties.mail.smtp.auth=true
+spring.mail.properties.mail.smtp.starttls.enable=true
+
+# OAuth2 Google (opcional — login normal continua funcionando sem isso)
+spring.security.oauth2.client.registration.google.client-id=SEU_GOOGLE_CLIENT_ID
+spring.security.oauth2.client.registration.google.client-secret=SEU_GOOGLE_CLIENT_SECRET
+spring.security.oauth2.client.registration.google.scope=openid,profile,email
+
+# OAuth2 GitHub (opcional — login normal continua funcionando sem isso)
+spring.security.oauth2.client.registration.github.client-id=SEU_GITHUB_CLIENT_ID
+spring.security.oauth2.client.registration.github.client-secret=SEU_GITHUB_CLIENT_SECRET
+spring.security.oauth2.client.registration.github.scope=read:user,user:email

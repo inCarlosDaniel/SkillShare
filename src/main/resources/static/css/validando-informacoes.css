@@ -1,0 +1,177 @@
+.validation-page {
+
+    color: #101014;
+}
+
+.validation-shell {
+
+    min-height: 100vh;
+
+    display: grid;
+
+    place-items: center;
+
+    padding: 28px;
+
+    position: relative;
+
+    z-index: 1;
+}
+
+.validation-card {
+
+    width: min(520px, 100%);
+
+    display: grid;
+
+    justify-items: center;
+
+    gap: 14px;
+
+    padding: 34px 34px 38px;
+
+    text-align: center;
+
+    animation: cardEnter .75s ease both, cardFloat 5s ease-in-out infinite alternate;
+}
+
+.validation-animation {
+
+    width: min(280px, 72vw);
+
+    aspect-ratio: 1;
+
+    display: grid;
+
+    place-items: center;
+
+    margin-bottom: -10px;
+}
+
+.validation-content {
+
+    display: grid;
+
+    justify-items: center;
+
+    gap: 12px;
+}
+
+.validation-card .auth-logo {
+
+    margin-bottom: 6px;
+}
+
+.validation-card h1 {
+
+    margin: 0;
+
+    color: #16161c;
+
+    font-size: 42px;
+
+    font-weight: 900;
+
+    line-height: 1;
+}
+
+.validation-card p {
+
+    margin: 0;
+
+    max-width: 360px;
+
+    color: #686874;
+
+    font-size: 18px;
+
+    font-weight: 700;
+
+    line-height: 1.36;
+}
+
+.validation-loader {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    min-height: 24px;
+
+    margin-top: 6px;
+}
+
+.validation-loader span {
+
+    width: 10px;
+
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: linear-gradient(135deg, #77d4ff, #a558ff);
+
+    animation: validationDot 1s ease-in-out infinite;
+}
+
+.validation-loader span:nth-child(2) {
+
+    animation-delay: .16s;
+}
+
+.validation-loader span:nth-child(3) {
+
+    animation-delay: .32s;
+}
+
+@keyframes validationDot {
+
+    0%, 80%, 100% {
+
+        opacity: .36;
+
+        transform: translateY(0) scale(.82);
+    }
+
+    40% {
+
+        opacity: 1;
+
+        transform: translateY(-7px) scale(1);
+    }
+}
+
+@media (max-width: 560px) {
+
+    .validation-card {
+
+        padding: 28px 20px 32px;
+    }
+
+    .validation-card h1 {
+
+        font-size: 34px;
+    }
+
+    .validation-card p {
+
+        font-size: 16px;
+    }
+}
+
+body.dark-theme.validation-page {
+
+    color: #f4f6fb;
+}
+
+body.dark-theme .validation-card h1 {
+
+    color: #f4f6fb;
+}
+
+body.dark-theme .validation-card p {
+
+    color: #b7bfce;
+}

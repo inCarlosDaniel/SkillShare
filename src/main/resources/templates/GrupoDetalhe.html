@@ -1,0 +1,759 @@
+
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <title th:text="${grupo.nome} + ' - SkillShare'">Grupo - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/comunidade.css" />
+
+    
+    <link rel="stylesheet" href="/css/barra-topo.css" />
+
+    
+    <link rel="stylesheet" th:href="@{/css/quiz-ia.css}" />
+
+    
+    <link rel="stylesheet" th:href="@{/css/detalhe-grupo.css}" />
+
+    
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3/dist/cdn.min.js"></script>
+
+    
+    <script src="/js/libs/lottie.js"></script>
+
+    
+    <script src="/js/detalhe-grupo.js" defer></script>
+
+  </head>
+
+  <body>
+
+    <!-- Detalhe do grupo: mostra dados do grupo, mural, materiais e acoes conforme o usuario seja membro ou criador. -->
+
+    
+    <div class="community-window">
+
+
+      
+      <header th:replace="~{fragments/topbar :: top-bar('grupos')}"></header>
+
+      
+      <main class="mural-shell">
+
+        
+
+        
+        <section class="mural-main">
+
+          
+
+          
+          <img th:src="@{/grupos/{id}/foto(id=${grupo.getidGrupo()},v=${fotoGrupoVersao})}"
+               class="group-banner-img" alt=""
+               onerror="this.style.display='none';" />
+
+          
+
+          
+          <div class="mural-group-header">
+
+            <div>
+
+              
+              <h1 th:text="${grupo.nome}">Nome do Grupo</h1>
+
+              
+              <div class="group-tags" style="margin-top:10px;">
+
+                
+                <span th:text="'Matéria: ' + ${grupo.materia}">Matéria</span>
+
+                
+                <span th:text="'Objetivo: ' + ${grupo.exameAlvo}">Objetivo</span>
+
+              </div>
+
+            </div>
+
+            
+            <a href="/grupos" class="mural-back-btn">← Voltar</a>
+
+          </div>
+
+          
+
+          
+          <p th:if="${sucesso}" class="group-msg success" th:text="${sucesso}"></p>
+
+          
+          <p th:if="${erro}"    class="group-msg error"   th:text="${erro}"></p>
+
+          
+
+          
+          <th:block th:if="${!isMembro}">
+
+            
+            <div class="nao-membro-aviso">
+
+              <p>Você precisa entrar neste grupo para ver o conteúdo e participar.</p>
+
+              
+              <form th:action="@{/grupos/{id}/entrar(id=${grupo.getidGrupo()})}" method="post">
+
+                
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                
+                <button type="submit" class="join-button" style="margin-top:0;">Entrar no Grupo</button>
+
+              </form>
+
+            </div>
+
+          </th:block>
+
+          
+
+          
+          <th:block th:if="${isMembro}">
+
+            
+
+            
+            <form th:if="${isCriador}"
+                  
+                  th:action="@{/grupos/{id}/foto(id=${grupo.getidGrupo()})}"
+                  method="post" enctype="multipart/form-data"
+                  class="group-photo-form">
+
+              
+              <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+              
+              <label class="group-photo-form-label">
+
+                <span>Foto do grupo</span>
+
+                
+                <input type="file" name="foto" accept="image/*" required />
+
+              </label>
+
+              
+              <button type="submit" class="group-photo-submit">Atualizar foto</button>
+
+            </form>
+
+            
+
+            
+            <div class="mural-section" th:if="${materiaisGrupo != null and !#lists.isEmpty(materiaisGrupo)}">
+
+              
+              <h2 class="mural-section-title">Materiais do Grupo</h2>
+
+              
+              <div class="mural-materials-grid">
+
+                
+                <div class="mural-material-card" th:each="mat : ${materiaisGrupo}">
+
+                  
+                  <div class="mural-material-info">
+
+                    
+                    <span class="mural-material-icon"></span>
+
+                    <div>
+
+                      
+                      <strong th:text="${mat.titulo}">Título</strong>
+
+                      
+                      <span th:text="${mat.autor != null ? mat.autor.nome : 'Usuário'}">Autor</span>
+
+                    </div>
+
+                  </div>
+
+                  
+                  <div class="mural-material-meta">
+
+                    
+                    <a th:href="${mat.url}" class="mural-download-btn">Download</a>
+
+                    
+
+                    
+                    <form th:if="${isCriador}"
+                          
+                          th:action="@{/grupos/{id}/materiais/{idAnexo}/excluir(id=${grupo.getidGrupo()},idAnexo=${mat.getidMaterial()})}"
+                          method="post"
+                          onsubmit="return confirm('Remover este material do grupo?');"
+                          style="margin:0;">
+
+                      
+                      <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                      
+                      <button type="submit" class="delete-material-button">Excluir</button>
+
+                    </form>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </div>
+
+            
+
+            
+            <div class="mural-section">
+
+              
+              <h2 class="mural-section-title">Mural</h2>
+
+              
+              <div class="mural-sort-bar" th:if="${posts != null and !#lists.isEmpty(posts)}">
+
+                
+                <button class="mural-sort-btn active" data-sort="relevante">▲ Relevante</button>
+
+                
+                <button class="mural-sort-btn" data-sort="recente">🕐 Recente</button>
+
+              </div>
+
+              
+              <div th:if="${posts == null or #lists.isEmpty(posts)}" class="mural-empty">
+
+                Nenhuma publicação ainda. O criador do grupo pode começar postando!
+              </div>
+
+              
+              <div class="mural-posts-lista">
+
+              
+              <article class="mural-post-card" th:each="post : ${posts}"
+                       th:attr="data-post-id=${post.getidPostagem()},data-upvote-count=${post.upvoteCount},data-data-pub=${post.dataPublicacao}">
+
+                
+                <header class="mural-post-header">
+
+                  
+
+                  
+                  <img th:src="@{/usuarios/{id}/foto(id=${post.autor != null ? post.autor.idUsuario : 0})}"
+                       class="member-avatar-img"
+                       th:alt="${post.autor != null ? post.autor.nome : 'U'}"
+                       onerror="this.style.display='none';if(window.SkillShareAvatars){window.SkillShareAvatars.showDefault(this.nextElementSibling);}else{this.nextElementSibling.style.display='grid';}" />
+
+                  
+                  <span class="member-avatar" style="display:none;"
+                        data-default-profile-avatar="true"
+                        th:text="${post.autor != null ? #strings.substring(post.autor.nome, 0, 1) : 'U'}">U</span>
+
+                  <div>
+
+                    
+                    <strong th:text="${post.autor != null ? post.autor.nome : 'Usuário'}">Usuário</strong>
+
+                    
+                    <time th:text="${post.dataPublicacao != null ? #temporals.format(post.dataPublicacao, 'dd/MM/yyyy HH:mm') : ''}"></time>
+
+                  </div>
+
+                </header>
+
+                
+                <p class="mural-post-body" th:if="${post.tipo != 'QUIZ'}" th:text="${post.conteudo}">Conteúdo</p>
+
+                
+                <div class="quiz-post" th:if="${post.tipo == 'QUIZ'}" th:attr="data-quiz-json=${post.conteudo}">
+
+                  
+                  <div class="quiz-summary">
+
+                    
+                    <span class="quiz-badge">QUIZ</span>
+
+                    
+                    <strong class="quiz-title">Quiz</strong>
+
+                  </div>
+
+                  
+                  <button class="quiz-toggle-btn" type="button" aria-expanded="false">Responder Quiz</button>
+
+                  
+                  <div class="quiz-form-area" hidden></div>
+
+                </div>
+
+                
+
+                
+                <div class="mural-post-anexos"
+                     th:if="${post.anexos != null and !#lists.isEmpty(post.anexos)}">
+
+                  
+                  <a th:each="anx : ${post.anexos}"
+                     th:href="${anx.url}"
+                     class="mural-download-btn"
+                     target="_blank"
+                     th:text="'📎 ' + ${anx.nomeArquivo}">Download</a>
+
+                </div>
+
+                
+                <footer class="mural-post-footer">
+
+                  
+                  <button class="mural-upvote-btn" type="button" aria-label="Dar upvote nesta publicação">
+
+                    
+                    ▲ <span class="upvote-count">0</span>
+
+                  </button>
+
+                  
+                  <button class="mural-comment-toggle-btn" type="button" aria-expanded="false">
+
+                    
+                    💬 <span class="comment-count">0</span> Comentários
+                  </button>
+
+                </footer>
+
+                
+                <div class="mural-comentarios" hidden>
+
+                  
+                  <div class="comentarios-lista">
+
+                    
+                    <p class="comentarios-vazio">Nenhum comentário ainda.</p>
+
+                  </div>
+
+                  
+                  <div class="comentario-form">
+
+                    
+                    <input type="text" class="comentario-input"
+                           placeholder="Escreva um comentário..."
+                           aria-label="Comentário" />
+
+                    
+                    <button type="button" class="comentario-enviar-btn">Enviar</button>
+
+                  </div>
+
+                </div>
+
+              </article>
+
+              </div>
+
+            </div>
+
+          </th:block>
+
+        </section>
+
+        
+
+        
+        <aside class="group-sidebar">
+
+          
+
+          
+          <div class="members-card">
+
+            
+            <h2>Membros Ativos</h2>
+
+            
+
+            
+            <div class="member-row" th:if="${grupo.criador != null}">
+
+              
+              <img th:src="@{/usuarios/{id}/foto(id=${grupo.criador.idUsuario})}"
+                   class="member-avatar-img"
+                   th:alt="${grupo.criador.nome}"
+                   onerror="this.style.display='none';if(window.SkillShareAvatars){window.SkillShareAvatars.showDefault(this.nextElementSibling);}else{this.nextElementSibling.style.display='grid';}" />
+
+              
+              <span class="member-avatar" style="display:none;"
+                    data-default-profile-avatar="true"
+                    th:text="${#strings.substring(grupo.criador.nome, 0, 1)}">C</span>
+
+              <span>
+
+                
+                <strong th:text="${grupo.criador.nome}">Criador</strong>
+
+                
+                <small style="display:block;color:#4169dc;font-size:11px;font-weight:700;">Criador</small>
+
+              </span>
+
+            </div>
+
+            
+
+            
+            <div class="member-row"
+                 th:each="membro : ${grupo.membros}"
+                 th:if="${grupo.criador == null or membro.idUsuario != grupo.criador.idUsuario}">
+
+              
+              <img th:src="@{/usuarios/{id}/foto(id=${membro.idUsuario})}"
+                   class="member-avatar-img"
+                   th:alt="${membro.nome}"
+                   onerror="this.style.display='none';if(window.SkillShareAvatars){window.SkillShareAvatars.showDefault(this.nextElementSibling);}else{this.nextElementSibling.style.display='grid';}" />
+
+              
+              <span class="member-avatar" style="display:none;"
+                    data-default-profile-avatar="true"
+                    th:text="${#strings.substring(membro.nome, 0, 1)}">M</span>
+
+              
+              <span th:text="${membro.nome}">Usuário</span>
+
+            </div>
+
+            
+            <div class="member-row" th:if="${grupo.membros == null || #lists.isEmpty(grupo.membros)}">
+
+              
+              <span class="member-avatar">U</span>
+
+              <span>Nenhum membro</span>
+
+            </div>
+
+          </div>
+
+          
+
+          
+          <div class="group-actions-card" th:if="${isCriador}">
+
+            
+            <h2>Postar no Mural</h2>
+
+            
+            <div class="mural-tabs">
+
+              
+              <button class="mural-tab active" data-tab="tab-texto">Texto</button>
+
+              
+              <button class="mural-tab"        data-tab="tab-quiz">Quiz</button>
+
+              
+              <button class="mural-tab"        data-tab="tab-material">Material</button>
+
+              
+              <button class="mural-tab"        data-tab="tab-arquivo">Arquivo</button>
+
+            </div>
+
+            
+
+            
+            <div id="tab-texto" class="mural-tab-content">
+
+              
+              <form th:action="@{/grupos/{id}/mural(id=${grupo.getidGrupo()})}" method="post">
+
+                
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                
+                <textarea class="mural-textarea" name="conteudo"
+                          placeholder="Escreva algo no mural..." rows="4" required
+                          aria-label="Texto para publicar no mural"></textarea>
+
+                
+                <button class="join-button" type="submit">Publicar</button>
+
+              </form>
+
+            </div>
+
+            
+
+            
+            <div id="tab-quiz" class="mural-tab-content" style="display:none">
+
+              
+              
+              <button type="button" class="btn-criar-quiz-ia join-button"
+                      style="width:100%;background:linear-gradient(135deg,#4169dc,#7c3aed);margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;">
+                ✨ Criar Quiz com IA
+              </button>
+
+              
+              <p style="text-align:center;color:#888;font-size:12px;margin:0 0 12px;">ou cole o JSON manualmente:</p>
+
+              
+              <form th:action="@{/grupos/{id}/mural/quiz(id=${grupo.getidGrupo()})}" method="post">
+
+                
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                
+                <textarea class="mural-textarea mural-quiz-json" name="conteudo"
+                          placeholder='{"titulo":"Quiz de Java","perguntas":[{"enunciado":"O que é uma classe em Java?","alternativas":["Objeto","Molde para objetos","Banco de dados","Método"],"correta":1}]}'
+                          rows="6" required
+                          aria-label="JSON do quiz"></textarea>
+
+                
+                <button class="join-button" type="submit">Publicar Quiz</button>
+
+              </form>
+
+            </div>
+
+            
+
+            
+            <div id="tab-material" class="mural-tab-content" style="display:none">
+
+              
+              <form th:action="@{/grupos/{id}/mural/material(id=${grupo.getidGrupo()})}" method="post">
+
+                
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                
+                <div class="material-picker" data-material-picker>
+
+                  <input class="mural-select material-search-input"
+                         type="search"
+                         placeholder="Selecione um material..."
+                         autocomplete="off"
+                         aria-label="Selecione ou pesquise um material"
+                         aria-expanded="false" />
+
+                  <input type="hidden" name="idMaterial" data-material-value required />
+
+                  <div class="material-results" role="listbox" aria-label="Materiais encontrados">
+
+                    <button class="material-option"
+                            type="button"
+                            role="option"
+                            th:each="m : ${todosMateriais}"
+                            th:data-material-id="${m.getidMaterial()}"
+                            th:text="${m.getTitulo()}">Material</button>
+
+                    <p class="material-empty" hidden>Nenhum material encontrado.</p>
+
+                  </div>
+
+                </div>
+
+                
+                <button class="join-button" type="submit" style="margin-top:10px">Compartilhar</button>
+
+              </form>
+
+            </div>
+
+            
+
+            
+            <div id="tab-arquivo" class="mural-tab-content" style="display:none">
+
+              
+              <form th:action="@{/grupos/{id}/mural/arquivo(id=${grupo.getidGrupo()})}"
+                    method="post" enctype="multipart/form-data">
+
+                
+                <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+                
+                <input class="mural-textarea" type="text" name="titulo"
+                       placeholder="Título do arquivo (opcional)" style="margin-bottom:8px;" />
+
+                
+                <input type="file" name="arquivo" required style="margin-bottom:10px;font-size:13px;"
+                       aria-label="Arquivo para publicar" />
+
+                
+                <button class="join-button" type="submit">Publicar Arquivo</button>
+
+              </form>
+
+            </div>
+
+          </div>
+
+          
+
+          
+          <div class="group-actions-card" th:if="${isMembro and !isCriador}">
+
+            
+            <h2>Sobre este grupo</h2>
+
+            
+            <p style="color:#626978;font-size:14px;line-height:1.55;margin:12px 0 0;">
+
+              Somente o criador do grupo pode publicar no mural.
+              Use os comentários em cada publicação para interagir.
+            </p>
+
+          </div>
+
+          
+
+          
+          <div class="group-actions-card">
+
+            
+            <h2>Pesquisar Grupos</h2>
+
+            
+            <div class="group-search-section">
+
+              
+              <form class="group-search-form" action="/grupos/buscar" method="get">
+
+                
+                <input type="text" name="q" placeholder="Buscar grupo..."
+                       aria-label="Nome do grupo para pesquisar" />
+
+                
+                <button type="submit" class="group-search-btn" aria-label="Pesquisar"></button>
+
+              </form>
+
+            </div>
+
+          </div>
+
+        </aside>
+
+      </main>
+
+    </div>
+
+    
+
+    
+    
+    <div id="quizIaData" hidden th:attr="data-grupo-id=${grupo.getidGrupo()}"></div>
+
+    
+    <div id="quizIaModal" class="qia-overlay" style="display:none;"
+         role="dialog" aria-modal="true" aria-label="Criar Quiz com IA">
+
+      
+      <div class="qia-panel">
+
+        
+        
+        <header class="qia-header">
+          
+          <div class="qia-header-info">
+            
+            <div id="quizIaBotLottie" class="qia-lottie-av" aria-hidden="true"></div>
+            <div>
+              
+              <h2 class="qia-titulo">Quiz IA</h2>
+              
+              <p id="qia-status-txt" class="qia-subtitulo">Converse com a IA para criar seu quiz</p>
+            </div>
+          </div>
+          
+          <button id="quizIaFechar" type="button" class="qia-close-btn" aria-label="Fechar">×</button>
+        </header>
+
+        
+        
+        <div id="bp-embedded-webchat" class="qia-chat-fill"></div>
+
+        
+        
+        <div id="quizIaPreview" class="qia-preview" style="display:none;"></div>
+
+        
+        
+        <footer class="qia-footer">
+
+          
+          
+          <details id="qia-json-details" style="margin-bottom:8px;">
+            
+            <summary style="font-size:12px;color:#888;cursor:pointer;text-align:center;list-style:none;">
+              ▸ Colar JSON do quiz manualmente
+            </summary>
+            
+            <div style="display:flex;gap:6px;margin-top:6px;">
+              
+              <textarea id="quizIaJsonPaste"
+                        style="flex:1;padding:8px;border:1.5px solid #dde1ee;border-radius:8px;font-size:12px;font-family:monospace;resize:none;height:60px;outline:0;"
+                        placeholder='{"titulo":"Quiz","perguntas":[...]}'></textarea>
+              
+              <button type="button" id="qia-btn-carregar-json"
+                      style="padding:0 12px;background:#4169dc;color:#fff;border:0;border-radius:8px;font-weight:700;cursor:pointer;white-space:nowrap;font-size:12px;">
+                Carregar
+              </button>
+            </div>
+          </details>
+
+          
+          <button id="quizIaPublicar" type="button" class="qia-publish-btn">
+            🚀 Publicar no Grupo
+          </button>
+        </footer>
+
+      </div>
+
+    </div>
+
+    
+    
+    <script src="https://cdn.botpress.cloud/webchat/v3.6/inject.js"></script>
+    
+    <script src="https://files.bpcontent.cloud/2026/06/04/04/20260604040551-2B0EVZQH.js" defer></script>
+
+    
+    
+    <script src="/js/quiz-ia.js" defer></script>
+
+
+    
+    <th:block th:replace="~{fragments/topbar :: chat-widget}"></th:block>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+
+  </body>
+
+</html>

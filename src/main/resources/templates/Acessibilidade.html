@@ -1,0 +1,131 @@
+
+<!doctype html>
+
+
+<html lang="pt-br" xmlns:th="http://www.thymeleaf.org">
+
+  <head>
+
+    
+    <meta charset="UTF-8" />
+
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    
+    <title>Acessibilidade - SkillShare</title>
+
+    
+    <link rel="stylesheet" href="/css/base.css" />
+
+    
+    <link rel="stylesheet" href="/css/barra-topo.css" />
+
+    
+    <link rel="stylesheet" href="/css/acessibilidade.css" />
+
+  </head>
+
+  <body>
+
+    <!-- Acessibilidade: centraliza preferencias visuais como tema, fonte, contraste e fundo. -->
+
+    
+    <div class="accessibility-window">
+
+      
+      <header th:replace="~{fragments/topbar :: top-bar('')}"></header>
+
+      
+      <main class="accessibility-shell" aria-labelledby="titulo-acessibilidade">
+
+        
+        <section class="accessibility-hero">
+
+          
+          <span class="accessibility-badge">Acessibilidade em evolucao</span>
+
+          
+          <h1 id="titulo-acessibilidade">Recursos de acessibilidade do SkillShare</h1>
+
+          
+          <p>
+            O SkillShare inclui recursos para melhorar leitura, navegacao e comunicacao.
+            Estes recursos sao inspirados em boas praticas da WCAG, mas ainda nao representam
+            uma certificacao oficial de conformidade.
+          </p>
+
+        </section>
+
+        
+        <section class="accessibility-grid" aria-label="Recursos disponiveis">
+
+          
+          <article class="accessibility-card">
+            <h2>VLibras</h2>
+            <p>Widget de Libras disponivel nas principais paginas para apoio a traducao de conteudo.</p>
+          </article>
+
+          
+          <article class="accessibility-card">
+            <h2>Tema escuro e contraste</h2>
+            <p>Opcoes visuais para reduzir desconforto e melhorar contraste em diferentes telas.</p>
+          </article>
+
+          
+          <article class="accessibility-card">
+            <h2>Controle de fonte</h2>
+            <p>Na pagina inicial ha ajuste de tamanho da fonte e opcao de alto contraste.</p>
+          </article>
+
+          
+          <article class="accessibility-card">
+            <h2>Rotulos e textos alternativos</h2>
+            <p>Campos, botoes e imagens usam labels, aria-labels e alt em varias areas do sistema.</p>
+          </article>
+
+          
+          <article class="accessibility-card">
+            <h2>Estrutura semantica</h2>
+            <p>As paginas usam cabecalhos, navegacao, secoes e regioes com nomes acessiveis.</p>
+          </article>
+
+          
+          <article class="accessibility-card">
+            <h2>Mensagens para leitores de tela</h2>
+            <p>Algumas mensagens dinamicas usam aria-live para comunicar mudancas importantes.</p>
+          </article>
+
+        </section>
+
+        
+        <section class="accessibility-note" aria-labelledby="titulo-wcag">
+
+          
+          <h2 id="titulo-wcag">Sobre WCAG</h2>
+
+          
+          <p>
+            O site possui recursos de acessibilidade, mas para declarar "WCAG A", "WCAG AA"
+            ou "WCAG AAA" e necessario testar criterios como contraste, teclado, foco visivel,
+            textos alternativos, formularios e comportamento em leitores de tela.
+          </p>
+
+          
+          <a class="accessibility-action" href="/">Voltar para o inicio</a>
+
+        </section>
+
+      </main>
+
+    </div>
+
+    
+    <th:block th:replace="~{fragments/topbar :: chat-widget}"></th:block>
+
+    
+    <th:block th:replace="~{fragments/topbar :: vlibras}"></th:block>
+
+  </body>
+
+</html>
