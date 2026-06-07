@@ -62,6 +62,34 @@ O Spring Boot será utilizado no processamento das requisições HTTP, autentica
 
 ---
 
+## Pré-requisitos para Executar o Projeto
+
+- **Java 17** ou superior
+- **Maven 3.8+** (ou use o `mvnw` incluído no projeto)
+- **MariaDB 10.6+** ou MySQL 8+
+
+### Como rodar localmente
+
+1. Clone o repositório
+2. Crie o banco de dados:
+   ```sql
+   CREATE DATABASE skillshare;
+   ```
+3. Copie o arquivo de configuração:
+   ```bash
+   cp src/main/resources/application-local.properties.example src/main/resources/application-local.properties
+   ```
+4. Preencha o `application-local.properties` com sua chave AES e credenciais
+5. Execute o projeto:
+   ```bash
+   ./mvnw spring-boot:run
+   ```
+6. Acesse `http://localhost:8080`
+
+> O Flyway cria todas as tabelas automaticamente na primeira execução.
+
+---
+
 ## Requisitos do Sistema
 
 - Interface responsiva para desktop, tablet e smartphone;
