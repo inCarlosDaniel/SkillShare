@@ -6,6 +6,14 @@ Projeto desenvolvido como Trabalho de Conclusão de Curso (TCC) do Curso Técnic
 
 ---
 
+## Demo
+
+<div align="center">
+  <video src="https://github.com/inCarlosDaniel/SkillShare/releases/download/v1.0/skillshare-demo.mp4" controls width="100%"></video>
+</div>
+
+---
+
 ## Objetivo do Projeto
 
 O SkillShare tem como objetivo democratizar o acesso ao conhecimento técnico através da colaboração entre estudantes, permitindo que usuários compartilhem habilidades, materiais acadêmicos e experiências de aprendizado. 
