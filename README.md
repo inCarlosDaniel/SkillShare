@@ -63,7 +63,7 @@ Perfis personalizados baseados em competências, habilidades e áreas de interes
 - JavaScript
 
 ### Banco de Dados
-- MariaDB
+- MySQL
 
 ### Ferramentas
 - GitHub
