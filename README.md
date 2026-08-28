@@ -37,6 +37,9 @@ Sistema de recomendação que conecta estudantes com base nas dificuldades de um
 ### Chat em Tempo Real
 Comunicação direta entre usuários para troca de mensagens, mentorias e compartilhamento de arquivos. 
 
+### SkillShare IA
+Um chat IA que ajuda no estudo e na criação de arquivos de estudo. 
+
 ### Sistema de Gamificação
 Sistema de pontuação e upvotes para incentivar contribuições dentro da comunidade acadêmica. 
 
@@ -68,6 +71,7 @@ Perfis personalizados baseados em competências, habilidades e áreas de interes
 ### Ferramentas
 - GitHub
 - VS Code
+- GROQ API
 
 ---
 
